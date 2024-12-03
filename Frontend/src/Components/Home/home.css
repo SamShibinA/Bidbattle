@@ -1,0 +1,26 @@
+.homecontent
+{   color:#ffffff;
+   padding-left: 50px;
+   padding-right: 5px;
+   background-image:url('../Assests/auction-hammer.jpg') ;
+   background-image: no-repeat;
+   background-size: cover;
+   background-position: center;
+   z-index:-1px;
+  }
+
+  .firstcontent{
+   text-align: center;
+   height: 9rem;
+  }
+
+  
+  .topic{padding-top: 2%; color: white;}
+  .termslist h4{padding-left:1.5%;} 
+
+  .termslist li {
+   padding: 5PX;
+   padding-left: 40px;
+   list-style: none;
+  }
+ 
