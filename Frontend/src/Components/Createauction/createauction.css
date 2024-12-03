@@ -1,0 +1,139 @@
+.Createauction {
+  width: 100%;
+
+}
+
+hr {
+  border: 1px solid black;
+}
+
+.auction-container {
+  max-width: 570px;
+  margin: 0  auto; /* Align container to the right */
+  background-color: #dcdcdc;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.auction-container h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.auction-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="file"],
+.form-group input[type="number"],
+.form-group input[type="datetime-local"],
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.form-group.full-width textarea {
+  resize: vertical;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.image-upload {
+  cursor: pointer;
+}
+
+.create-button {
+  background-color: #333;
+  color: white;
+  padding: 10px 0;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.create-button:hover {
+  background-color: #555;
+}
+
+/* Media query for tablet devices */
+@media (max-width: 768px) {
+  .auction-container {
+    width: 80%; /* Slightly smaller width for tablets */
+    padding: 15px;
+  }
+
+  .auction-container h2 {
+    font-size: 1.25rem;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .form-group input[type="text"],
+  .form-group input[type="file"],
+  .form-group input[type="number"],
+  .form-group input[type="datetime-local"],
+  .form-group textarea,
+  .form-group select {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  .create-button {
+    font-size: 0.9rem;
+  }
+}
+
+/* Media query for mobile devices */
+@media (max-width: 480px) {
+  .auction-container {
+    width: 100%; /* Full width for mobile */
+    padding: 10px;
+  }
+
+  .auction-container h2 {
+    font-size: 1.1rem;
+  }
+
+  .create-button {
+    font-size: 0.85rem;
+    padding: 8px 0;
+  }
+}

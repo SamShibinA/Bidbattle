@@ -1,0 +1,258 @@
+.my-order {
+  background-color: #dcdcdc;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  }
+  
+  h2 {
+    margin-left: 20px;
+  }
+  
+  #opsd span {
+    padding: 0 7px;
+  }
+  
+  .order-card {
+    border: 1px solid black;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 5px;
+    width: 70%;
+    height: auto; /* Allow height to be flexible */
+    margin-right: 50px;
+    display: flex;
+    flex-wrap: wrap; /* Make content wrap on smaller screens */
+    box-sizing: border-box;
+  }
+  
+  #price {
+    margin-right: 20px;
+    margin-left: 20px;
+  }
+  
+  .order-image {
+    text-align: center;
+  }
+  
+  .order-image img {
+    width: 150px;
+    height: 150px;
+    padding-right: 0px;
+    margin-right: 20px;
+    border-radius: 20%;
+  }
+  
+  .order-details {
+    text-align: left;
+  }
+  
+  .order-progress {
+    display: flex;
+    align-items: flex-start;
+    margin-left: 25px;
+    margin: 20px;
+    width: 16rem;
+  }
+  
+  .status {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #ccc;
+    border: 2px solid green;
+  }
+  
+  .status.active {
+    background-color: green;
+  }
+  
+  .delivered-button {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    height: 40px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  #delivery {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .equal {
+    color: green;
+  }
+  
+  /* Responsive Styles */
+  
+  /* For large tablets and small desktops */
+  @media (max-width: 1200px) {
+    .order-card {
+      width: 85%; /* Reduce width for smaller screens */
+    }
+  }
+  
+  /* For tablets and medium screens */
+  @media (max-width: 992px) {
+    .order-card {
+      width: 95%;
+      margin-right: 0;
+      padding: 15px;
+      margin: 15px 0;
+    }
+  
+    .order-image img {
+      width: 130px;
+      height: 130px;
+    }
+  
+    .delivered-button {
+      font-size: 15px;
+    }
+    #delivery{
+      display: block;
+    }
+  }
+  
+  /* For mobile devices */
+  @media (max-width: 768px) {
+    .order-card {
+      flex-direction: column; /* Stack items vertically */
+      align-items: center;
+      width: 90%; /* Full width on smaller screens */
+      height: auto;
+      margin-right: 0; /* Remove side margin */
+    }
+  
+    .order-image img {
+      width: 120px; /* Adjust image size */
+      height: 120px;
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+  
+    .order-details,
+    .order-progress {
+      text-align: center;
+      margin: 10px 0;
+      width: 100%; /* Full width for details and progress */
+    }
+  
+    .order-progress {
+      margin-left: 20px;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    #price {
+      margin: 10px 0;
+    }
+  
+    .delivered-button {
+      width: 100%; /* Full width for the button */
+      padding: 8px 15px;
+      font-size: 14px;
+    }
+  }
+  
+  /* Enhanced Styles for smaller mobile devices */
+  @media (max-width: 576px) {
+    h2 {
+      font-size: 1.2em;
+      margin-left: 10px;
+      text-align: center; /* Center heading on small screens */
+    }
+  
+    .order-card {
+      flex-direction: column; /* Stack items vertically */
+      padding: 15px;
+      margin: 10px 0;
+      width: 95%;
+      text-align: center; /* Center align for consistency */
+      align-items: center;
+    }
+  
+    .order-image img {
+      width: 110px;
+      height: 110px;
+      margin-bottom: 15px;
+    }
+  
+    #price {
+      margin: 10px 0;
+      text-align: center;
+    }
+  
+    .order-details,
+    .order-progress {
+      text-align: center;
+      width: 100%; /* Full width for details and progress */
+      margin: 8px 0;
+    }
+  
+    .order-progress {
+      justify-content: center;
+      align-items: center;
+    }
+  
+    .delivered-button {
+      width: 100%;
+      padding: 8px;
+      font-size: 14px;
+    }
+
+  
+    #delivery {
+      display: block;
+      margin-top: 10px;
+      text-align: center;
+    }
+  }
+  
+  /* For extra-small mobile devices */
+  @media (max-width: 400px) {
+    h2 {
+      font-size: 1em;
+      margin-left: 5px;
+      text-align: center;
+    }
+  
+    .order-card {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+    }
+  
+    .order-image img {
+      width: 90px;
+      height: 90px;
+      margin-bottom: 10px;
+    }
+  
+    #price {
+      margin: 5px 0;
+      text-align: center;
+    }
+  
+    .order-details,
+    .order-progress {
+      text-align: center;
+      margin: 5px 0;
+    }
+  
+    .order-progress {
+      margin-left: 0;
+    }
+  
+    .delivered-button {
+      font-size: 12px;
+      padding: 5px 10px;
+    }
+  }

@@ -1,0 +1,121 @@
+/* Center the container and text */
+.removeart{
+    text-align: center;
+}
+
+/* Style for horizontal rule */
+hr {
+    border: 1px solid black;
+}
+
+/* Container styling */
+.gallery-container {
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* Grid layout */
+.art-grid {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Art item styling */
+.art-item {
+    text-align: center;
+    flex-basis: 150px; /* Flex-basis makes items responsive */
+}
+
+/* Image styling */
+.art-image {
+    width: 100%;
+    height: 150px; /* Fixed height */
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Remove button styling */
+.remove-button {
+    background-color: #ff3333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 0;
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+}
+
+.remove-button:hover {
+    background-color: #cc0000;
+}
+
+/* Responsive Design */
+
+/* Tablets and small desktops */
+@media (max-width: 768px) {
+    .gallery-container {
+        padding: 15px;
+    }
+
+    .gallery-container h2 {
+        font-size: 1.25rem;
+    }
+
+    .art-grid {
+        gap: 15px;
+    }
+
+    .art-item {
+        flex-basis: 120px; /* Adjusts width of art items */
+    }
+
+    .remove-button {
+        font-size: 0.85rem;
+    }
+}
+
+/* Small screens (phones) */
+@media (max-width: 480px) {
+    .gallery-container {
+        padding: 10px;
+    }
+
+    .gallery-container h2 {
+        font-size: 1.1rem;
+    }
+
+    .art-grid {
+        flex-direction: column; /* Stack items in a single column */
+        gap: 10px;
+        align-items: center;
+    }
+
+    .art-item {
+        flex-basis: 100px; /* Smaller width for art items */
+    }
+
+    .art-image {
+        height: 100px; /* Adjust image height for smaller screens */
+    }
+
+    .remove-button {
+        font-size: 0.8rem;
+        padding: 6px 0;
+    }
+}

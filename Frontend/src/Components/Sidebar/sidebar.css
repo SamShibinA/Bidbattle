@@ -1,0 +1,76 @@
+/* Default sidebar styles for larger screens */
+/* Sidebar styling */
+.sidebar {
+  position: fixed;
+  padding: 15px;
+  top: 10%;
+  left: 0%; /* Aligns the sidebar to the left side */
+  width: 170px; /* Adjust width as needed */
+  height: 90%; /* Adjust height as needed */
+  background-color: #f8f9fa; /* Example background color */
+  box-shadow: 4px 0 16px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transition: transform 0.3s ease;
+  align-items: center;
+}
+
+.sidebar-option {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar-option:hover {
+  background-color: white;
+}
+
+.sidebar-option svg {
+  margin-right: 10px;
+  color: #333;
+  font-size: 18px;
+}
+
+.sidebar-option span {
+  font-size: 14px;
+  color: #333;
+}
+
+/* Media query for tablet devices */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 150px; /* Reduce width on smaller screens */
+    padding: 15px;
+    box-shadow: 2px 0px 6px rgba(0, 0, 0, 0.1); /* Adjust shadow for smaller sidebar */
+  }
+
+  .sidebar-option span {
+    font-size: 12px; /* Reduce font size for sidebar options */
+  }
+
+  .sidebar-option svg {
+    font-size: 16px; /* Adjust icon size */
+  }
+}
+
+/* Media query for mobile devices */
+@media (max-width: 480px) {
+  .sidebar {
+    width: 100px; /* Narrow sidebar on mobile */
+    padding: 10px;
+    box-shadow: 1px 0px 4px rgba(0, 0, 0, 0.1); /* Adjust shadow for narrower sidebar */
+  }
+
+  .sidebar-option {
+    padding: 8px;
+  }
+
+  .sidebar-option span {
+    display: none; /* Hide text labels for icons on very small screens */
+  }
+
+  .sidebar-option svg {
+    font-size: 20px; /* Slightly increase icon size for better touch targets */
+  }
+}
