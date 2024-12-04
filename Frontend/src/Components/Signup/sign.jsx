@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './sign.css'; // Import your CSS file
 import logo from '../../Components/Assests/loginlogo.png';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import axios from 'axios';
 
 const Signup = () => {
   const [username, setUsername] = useState('');
@@ -10,17 +11,34 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const navigate = useNavigate(); // Initialize navigate hook
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle signup logic here
-    console.log('Username:', username);
-    console.log('Email:', email);
-    console.log('Password:', password);
-    console.log('Confirm Password:', confirmPassword);
-  };
 
-  const handleSignInClick = () => {
-    navigate('/Login'); // Navigate to the Login page
+    if (password !== confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/signup', {
+        username,
+        email,
+        password,
+      });
+      alert(response.data.message); // Show success message
+      navigate('/Login'); // Redirect to login page
+    } catch (error) {
+      if (error.response) {
+        console.error('Backend Error:', error.response.data); // Log backend response
+        alert(error.response.data.message || 'Failed to sign up. Please try again.');
+      } else if (error.request) {
+        console.error('No response from server:', error.request); // Log network errors
+        alert('No response from the server. Please try again.');
+      } else {
+        console.error('Error during request setup:', error.message); // Log other errors
+        alert('An unexpected error occurred. Please try again.');
+      }
+    }
   };
 
   return (
@@ -35,12 +53,12 @@ const Signup = () => {
             <h3>Sign Up</h3>
             <form onSubmit={handleSubmit}>
               <div className="input-group">
-                <label htmlFor="username">Username/Email address</label>
+                <label htmlFor="username">Username</label>
                 <input
                   type="text"
                   id="username"
                   name="username"
-                  placeholder="Username/Email"
+                  placeholder="Username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   required
@@ -60,33 +78,29 @@ const Signup = () => {
               </div>
               <div className="input-group">
                 <label htmlFor="password">Password</label>
-                <div className="password-container">
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
-                </div>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
               </div>
               <div className="input-group">
                 <label htmlFor="confirmPassword">Confirm Password</label>
-                <div className="password-container">
-                  <input
-                    type="password"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    placeholder="Confirm Password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    required
-                  />
-                </div>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  placeholder="Confirm Password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
               </div>
-              <button type="submit" className="signin-btn"  onClick={handleSignInClick}>Sign Up</button>
+              <button type="submit" className="signin-btn">Sign Up</button>
             </form>
           </div>
           <div className="left-panel">
@@ -94,7 +108,7 @@ const Signup = () => {
             <p>Already Have an Account in BidBattle?</p>
             <button
               className="signup-btn"
-              onClick={handleSignInClick} // Attach navigation function
+              onClick={() => navigate('/Login')} // Navigate to login page
             >
               Sign in
             </button>
