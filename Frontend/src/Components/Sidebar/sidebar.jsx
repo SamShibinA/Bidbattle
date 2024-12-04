@@ -46,10 +46,12 @@ const Sidebar = () => {
         <span>Favourite</span>
         </div>
       </Link>
+      <Link to="/Log Out">
       <div className="sidebar-option">
         <FontAwesomeIcon icon={faSignOutAlt} />
         <span>Log Out</span>
       </div>
+      </Link>
     </div>
   );
 };
