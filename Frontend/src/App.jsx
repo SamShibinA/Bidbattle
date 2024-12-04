@@ -31,7 +31,8 @@ function App() {
               <Route path="/Add Art" element={<Addartpage />}/>
               <Route path="/Remove Art" element={<Removeartpage />} />
               <Route path="/Favourite" element={<Favoritepage />}/>
-              <Route path="/Manage Order" element={<Manageorderpage />}/>
+              <Route path="/Manage Order" element={<Manageorderpage />}/>\
+              <Route path="Log Out" element={<Login />}/>
         </Routes>
         </div>
     </Router>
