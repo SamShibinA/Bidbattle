@@ -1,0 +1,240 @@
+.bid-card {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f8f8f8;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.fullscreen-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #eaeaea;
+}
+
+.image-section {
+  display: flex;
+  justify-content: center;
+}
+
+.image-section img {
+  width: 300px; /* Fixed width */
+  height: 400px; /* Fixed height */
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.details-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+h2,
+h3 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.details-section p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.bid-input {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.bid-input input {
+  flex: 1;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.bid-input button {
+  padding: 8px 12px;
+  background-color: #28a745;
+  color: #fff;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.bid-input button:hover {
+  background-color: #218838;
+}
+
+.timer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.timer .ends-in {
+  font-weight: bold;
+}
+
+.timer .countdown {
+  font-weight: bold;
+  color: #555;
+}
+
+.art-details {
+  margin-top: 15px;
+}
+
+.art-details p {
+  margin: 5px 0;
+  color: #444;
+}
+
+.art-details p strong {
+  color: #333;
+}
+
+/* Responsive Breakpoints */
+
+/* For Tablets and Smaller Screens (max-width: 768px) */
+@media (max-width: 768px) {
+  .bid-card {
+    flex-direction: column;  /* Stack the content vertically */
+    padding: 15px;
+  }
+
+  .image-section img {
+    width: 300px;  /* Keep image size fixed */
+    height: 400px;  /* Keep image size fixed */
+  }
+
+  .details-section {
+    max-width: 100%;
+  }
+
+  h2, h3 {
+    font-size: 1.5rem;
+  }
+
+  .details-section p {
+    font-size: 14px;
+  }
+
+  .bid-input input,
+  .bid-input button {
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  .bid-input {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .timer {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .art-details p {
+    font-size: 14px;
+  }
+}
+
+/* For Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+  .bid-card {
+    padding: 10px;
+  }
+
+  .image-section img {
+    width: 300px; /* Keep image size fixed */
+    height: 400px; /* Keep image size fixed */
+  }
+
+  .details-section {
+    max-width: 100%;
+  }
+
+  h2, h3 {
+    font-size: 1.3rem;
+  }
+
+  .details-section p {
+    font-size: 13px;
+  }
+
+  .bid-input input,
+  .bid-input button {
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  .bid-input {
+    gap: 12px;
+  }
+
+  .timer {
+    gap: 10px;
+  }
+
+  .art-details p {
+    font-size: 13px;
+  }
+}
+
+/* Full-Screen Mode */
+:fullscreen .image-section img {
+  width: 80%;  /* Increase width */
+  height: auto; /* Adjust height accordingly */
+}
+
+:fullscreen .bid-card {
+  max-width: none; /* Remove max width for full screen */
+  width: 100%;
+  padding: 40px;
+}
+
+:fullscreen .details-section {
+  flex: 2;
+  padding-left: 20px;
+}
+
+/* For larger screens (min-width: 1200px) */
+@media (min-width: 1200px) {
+  .bid-card {
+    flex-direction: row; /* Horizontal layout */
+    padding: 30px;
+  }
+
+  .image-section img {
+    width: 350px;
+    height: 450px;
+  }
+}
+
+/* Off-Screen Layout (Image on the left, Content on the right) */
+@media (min-width: 768px) {
+  .bid-card {
+    flex-direction: row;  /* Horizontal layout */
+    justify-content: space-between;
+  }
+
+  .image-section {
+    order: 0;  /* Ensure image is on the left side */
+  }
+
+  .details-section {
+    order: 1;  /* Content on the right side */
+  }
+}
