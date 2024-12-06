@@ -12,19 +12,27 @@ import Favoritepage from './Pages/Favoritepage/favoritepage';
 import Removeartpage from './Pages/Removeartpage/removeartpage';
 import Signup from './Components/Signup/sign'
 import Login from './Components/Login/login';
+import Auctionsecondpage from './Pages/Auctionseconpage/auctionsecondpage';
+import Buysecondpage from './Pages/Buysecondpage/buysecondpage';
+import Paymentpage from './Pages/Paymentpage/paymentpage';
 function App() {
   return (
  <div>
+  
     <Router>
        <div >
             <Routes>
+
               <Route path="/" element={<Login />} />
               <Route path="/Login" element={<Login />} />
               <Route path="/Signup" element={<Signup />} />
               <Route path="/Singin" element={<HomePage />} />
               <Route path="/Home" element={<HomePage />} />
               <Route path="/Auction" element={<AuctionPage />} />
+              <Route path="/BidcardAuction" element={<Auctionsecondpage />} />
+              <Route path="BuyCard"element={<Buysecondpage />}/>
               <Route path="/Buy" element={<BuyPage />}/>
+              <Route path="/payment" element={<Paymentpage />}/>*/For Payment */
               <Route path="/My Order" element={ <Myorderpage />}/>
               <Route path="/Edit Profile" element={<Editprofilepage />}/>
               <Route path="/Create Auction" element={<Createauctionpage />}/>
