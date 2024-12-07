@@ -14,14 +14,13 @@ const Login = () => {
     e.preventDefault(); 
 
     try {
-      // Sending username/email and password to the backend for login
+
       const response = await axios.post('http://localhost:5000/api/login', {
         username, 
         password, 
       });
 
-      // If login is successful, navigate to home page and store the token
-      alert(response.data.message); 
+      // alert(response.data.message); 
       localStorage.setItem('token', response.data.token); 
       navigate('/Home'); 
     } catch (error) {

@@ -25,7 +25,7 @@ const Payment = () => {
       <div className="product-details">
         <h1>{item.title}</h1>
         <h2>{item.price}</h2>
-          <p>Theme: {item.theme}</p>
+          <p><b>Theme: </b>{item.theme}</p>
         <div className="price-details">
           <p><b>Items Total:</b> {item.price}</p>
           <p><b>Shipping Fees:</b> {item.shippingprice}</p>

@@ -1,68 +1,70 @@
-/* General Styles for the Payment Page */
+/* General Styles for Product Card */
 .product-card-container {
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #f4f4f4;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  max-width: 1200px;
-  margin: 20px auto;
+  box-sizing: border-box;
+}
+
+.product-image {
+  display: flex;
+  justify-content: center;
+  margin-right: 20px;
 }
 
 .product-image img {
-  width: 300px;
+  width: 300px; /* Adjust the size as required */
   height: 400px;
   object-fit: cover;
   border-radius: 8px;
+  
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .product-details {
-  margin-left: 30px;
   max-width: 400px;
   background-color: white;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .product-details h1 {
   font-size: 1.8rem;
   font-weight: bold;
-  margin-bottom: 10px;
+  color: #333;
 }
 
 .product-details h2 {
-  font-size: 1.6rem;
-  color: #333;
-  margin-bottom: 15px;
+  font-size: 1.4rem;
+  color: #555;
 }
 
 .product-details p {
   font-size: 1rem;
-  color: #555;
+  color: #666;
 }
 
-.price-details p {
-  font-size: 1rem;
-  margin-bottom: 5px;
-}
-
-hr {
-  margin: 10px 0;
+.product-price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
 }
 
 .payment-button {
-  background-color: black;
+  background-color: #000;
   color: white;
   padding: 10px 20px;
-  font-size: 1.2rem;
   border: none;
   border-radius: 5px;
+  font-size: 1rem;
   cursor: pointer;
-  width: 100%;
-  margin-top: 20px;
   transition: background-color 0.3s;
 }
 
@@ -70,90 +72,76 @@ hr {
   background-color: #444;
 }
 
-/* Responsive Styles for Tablet and Mobile Devices */
+/* Responsive Styles for Tablets */
 @media (max-width: 1024px) {
   .product-card-container {
     flex-direction: column;
     padding: 15px;
-    margin: 10px auto;
   }
 
-  .product-image img {
-    width: 80%; /* Adjust image size for tablets */
+  .product-image  {
+    width: 80%; /* Adjust for smaller screens */
     height: auto;
-    margin: 0 auto;
+    padding-left: 1.5%;
+    margin-bottom: 18px;
   }
 
   .product-details {
-    margin-left: 0;
     max-width: 90%;
     padding: 15px;
   }
 
   .payment-button {
-    font-size: 1.1rem;
+    font-size: 1rem;
     padding: 12px 20px;
   }
 }
 
-/* Responsive Styles for Small Screens (Mobile Phones) */
+/* Responsive Styles for Mobile Screens */
 @media (max-width: 768px) {
   .product-card-container {
     flex-direction: column;
     padding: 10px;
-    margin: 10px;
   }
 
   .product-image img {
-    width:   100%; /* Image takes full width on small screens */
-   padding-left:3%;
+    width: 16rem; /* Adjust for mobile screens */
     height: auto;
   }
 
   .product-details {
-    margin-left: 0;
-    max-width: 100%;
     padding: 10px;
+    max-width: 100%;
   }
 
   .product-details h1 {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
   }
 
   .product-details h2 {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   }
 
   .product-details p {
     font-size: 0.9rem;
   }
 
-  .price-details p {
-    font-size: 0.9rem;
-  }
-
   .payment-button {
-    font-size: 1.1rem;
-    padding: 12px 20px;
+    font-size: 1rem;
+    padding: 12px;
+    width: 100%;
   }
 }
 
-/* Responsive Styles for Extra Small Screens (Mobile Phones in Portrait Mode) */
+/* Responsive Styles for Extra Small Screens */
 @media (max-width: 480px) {
   .product-card-container {
-    flex-direction: column;
     padding: 5px;
-    margin: 5px;
   }
 
   .product-image img {
-    width: 100%; /* Full width image on very small screens */
+    width: 100%;
     height: auto;
-  }
-
-  .product-details {
-    padding: 8px;
-    margin-top: 10px;
   }
 
   .product-details h1 {
@@ -161,19 +149,16 @@ hr {
   }
 
   .product-details h2 {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
 
   .product-details p {
     font-size: 0.85rem;
   }
 
-  .price-details p {
-    font-size: 0.85rem;
-  }
-
   .payment-button {
-    font-size: 1.2rem;
-    padding: 14px 20px;
+    font-size: 1rem;
+    padding: 10px;
+    width: 100%;
   }
 }
