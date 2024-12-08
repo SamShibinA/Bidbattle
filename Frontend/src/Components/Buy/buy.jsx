@@ -29,9 +29,9 @@ function Buy() {
   ];
 
   const [likedItems, setLikedItems] = useState({});
-  const [sizeFilter, setSizeFilter] = useState(""); // Filter by size
-  const [sortOption, setSortOption] = useState(""); // Sort by price
-  const [searchTerm, setSearchTerm] = useState(""); // Search filter state
+  const [sizeFilter, setSizeFilter] = useState("");
+  const [sortOption, setSortOption] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const toggleLike = (itemId) => {
     setLikedItems((prevLikedItems) => ({
@@ -65,7 +65,7 @@ function Buy() {
 
   return (
     <div className="app-container">
-      <div className="search-filter-container"  >
+      <div className="search-filter-container">
         <div className="search-bar-container">
           <input
             type="text"
@@ -90,38 +90,35 @@ function Buy() {
         </select>
       </div>
 
-      <div
-        className="card-container"
-        // style={{
-        //   position: filteredAndSortedItems.length >3? "fixed" : "relative",
-        //   top: filteredAndSortedItems.length >3 ? "25%" : "auto",
-        //   width: "100%",
-        // }}
-      >
-        {filteredAndSortedItems.map((item) => (
-          <div key={item.id} className="card" onClick={() => handleCardClick(item)}>
-            <img src={item.imgSrc} alt={item.title} />
-            <div
-              className="heart-icon"
-              onClick={(e) => {
-                e.stopPropagation();
-                toggleLike(item.id);
-              }}
-              style={{
-                color: likedItems[item.id] ? "red" : "gray",
-                cursor: "pointer",
-                fontSize: "22px",
-                position: "absolute",
-                right: "10px",
-              }}
-            >
-              {likedItems[item.id] ? "❤️" : "🤍"}
+      <div className="card-container">
+        {filteredAndSortedItems.length === 0 ? (
+          <div className="no-result">No Result</div>
+        ) : (
+          filteredAndSortedItems.map((item) => (
+            <div key={item.id} className="card" onClick={() => handleCardClick(item)}>
+              <img src={item.imgSrc} alt={item.title} />
+              <div
+                className="heart-icon"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleLike(item.id);
+                }}
+                style={{
+                  color: likedItems[item.id] ? "red" : "gray",
+                  cursor: "pointer",
+                  fontSize: "22px",
+                  position: "absolute",
+                  right: "10px",
+                }}
+              >
+                {likedItems[item.id] ? "❤️" : "🤍"}
+              </div>
+              <div className="card-title">{item.title}</div>
+              <div className="card-price">{item.price}</div>
+              <div className="card-theme">Theme: {item.theme}</div>
             </div>
-            <div className="card-title">{item.title}</div>
-            <div className="card-price">{item.price}</div>
-            <div className="card-theme">Theme: {item.theme}</div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );

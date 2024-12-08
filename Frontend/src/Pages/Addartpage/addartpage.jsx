@@ -4,7 +4,7 @@ import Addart from '../../Components/Addart/addart'
 
 const Addartpage = () => {
   return (
-    <div>
+    <div style={{background:"white"}}>
       <NavigationBar />
       <Addart />
       

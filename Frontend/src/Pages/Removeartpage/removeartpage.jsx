@@ -3,7 +3,7 @@ import NavigationBar from '../../Components/Navbar/navbar';
 import Removeart from '../../Components/Removeart/removeart';
 const Removeartpage = () => {
   return (
-    <div>
+    <div >
       <NavigationBar />
       <Removeart />
     </div>
