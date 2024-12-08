@@ -16,19 +16,19 @@ function Buy() {
 
   // Array of item objects
   const items = [
- { 
-     id: 1, imgSrc: p4, title: "The Fall in a Forest", price: "$175.00", theme: "Nature",size:"16 X 20",type:"Oil Painting",description:"The painting features a woman's face, partially obscured by a vibrant mix of colors and textures. Her eyes are closed, and her lips are parted, suggesting a state of contemplation or introspection.",shippingprice:"$34" },
-    { id: 2, imgSrc: p5, title: "Abstract Colors", price: "$200.00", theme: "Modern" ,description:"The Mona Lisa is a renowned portrait by Leonardo da Vinci, famous for its enigmatic smile and captivating realism.",shippingprice:"$14" },
-    { id: 3, imgSrc: p2, title: "The Everest Along with Nature", price: "$150.00", theme: "Nature",description:"The Mona Lisa is a renowned portrait by Leonardo da Vinci, famous for its enigmatic smile and captivating realism.",shippingprice:"$24"  },
-    { id: 4, imgSrc: p3, title: "Man inside a Painting", price: "$200.00", theme: "Modern",description:"The painting features a woman's face, partially obscured by a vibrant mix of colors and textures. Her eyes are closed, and her lips are parted, suggesting a state of contemplation or introspection.",shippingprice:"$34"  },
-    { id: 5, imgSrc: p4, title: "The Fall in a Forest", price: "$175.00", theme: "Nature",description:"The painting features a woman's face, partially obscured by a vibrant mix of colors and textures. Her eyes are closed, and her lips are parted, suggesting a state of contemplation or introspection.",shippingprice:"$84"  },
-    { id: 6, imgSrc: p5, title: "Abstract Colors", price: "$200.00", theme: "Modern" ,description:"The Mona Lisa is a renowned portrait by Leonardo da Vinci, famous for its enigmatic smile and captivating realism.",shippingprice:"$24" },
-    { id: 7, imgSrc: p6, title: "Desert Mirage", price: "$200.00", theme: "Modern",description:"The painting features a woman's face, partially obscured by a vibrant mix of colors and textures. Her eyes are closed, and her lips are parted, suggesting a state of contemplation or introspection.",shippingprice:"$14"  },
-    { id: 8, imgSrc: p7, title: "Cityscape Twilight", price: "$200.00", theme: "Modern",description:"The painting features a woman's face, partially obscured by a vibrant mix of colors and textures. Her eyes are closed, and her lips are parted, suggesting a state of contemplation or introspection." ,shippingprice:"$64" },
-    { id: 9, imgSrc: p8, title: "Dreamy Landscape", price: "$200.00", theme: "Modern",description:"The Mona Lisa is a renowned portrait by Leonardo da Vinci, famous for its enigmatic smile and captivating realism.",shippingprice:"$44" },
-    { id: 10, imgSrc: p9, title: "Lost in Thought", price: "$200.00", theme: "Modern",description:"The painting features a woman's face, partially obscured by a vibrant mix of colors and textures. Her eyes are closed, and her lips are parted, suggesting a state of contemplation or introspection.",shippingprice:"$74"  },
-    { id: 11, imgSrc: p1, title: "The Fall in a Forest", price: "$175.00", theme: "Nature",description:"The painting features a woman's face, partially obscured by a vibrant mix of colors and textures. Her eyes are closed, and her lips are parted, suggesting a state of contemplation or introspection.",shippingprice:"$44"  },
-    { id: 12, imgSrc: p3, title: "Abstract Colors", price: "$200.00", theme: "Modern" ,description:"The Mona Lisa is a renowned portrait by Leonardo da Vinci, famous for its enigmatic smile and captivating realism.",shippingprice:"$54" },
+    { 
+      id: 1, imgSrc: p4, title: "The Fall in a Forest", price: "$175.00", theme: "Nature", size:"16 X 20", type:"Oil Painting", description:"The painting features a woman's face, partially obscured by a vibrant mix of colors and textures. Her eyes are closed, and her lips are parted, suggesting a state of contemplation or introspection.", shippingprice:"$34" },
+    { id: 2, imgSrc: p5, title: "Abstract Colors", price: "$200.00", theme: "Modern", description:"The Mona Lisa is a renowned portrait by Leonardo da Vinci, famous for its enigmatic smile and captivating realism.", shippingprice:"$14" },
+    { id: 3, imgSrc: p2, title: "The Everest Along with Nature", price: "$150.00", theme: "Nature", description:"The Mona Lisa is a renowned portrait by Leonardo da Vinci, famous for its enigmatic smile and captivating realism.", shippingprice:"$24" },
+    { id: 4, imgSrc: p3, title: "Man inside a Painting", price: "$200.00", theme: "Modern", description:"The painting features a woman's face, partially obscured by a vibrant mix of colors and textures. Her eyes are closed, and her lips are parted, suggesting a state of contemplation or introspection.", shippingprice:"$34" },
+    { id: 5, imgSrc: p4, title: "The Fall in a Forest", price: "$175.00", theme: "Nature", description:"The painting features a woman's face, partially obscured by a vibrant mix of colors and textures. Her eyes are closed, and her lips are parted, suggesting a state of contemplation or introspection.", shippingprice:"$84" },
+    { id: 6, imgSrc: p5, title: "Abstract Colors", price: "$200.00", theme: "Modern", description:"The Mona Lisa is a renowned portrait by Leonardo da Vinci, famous for its enigmatic smile and captivating realism.", shippingprice:"$24" },
+    { id: 7, imgSrc: p6, title: "Desert Mirage", price: "$200.00", theme: "Modern", description:"The painting features a woman's face, partially obscured by a vibrant mix of colors and textures. Her eyes are closed, and her lips are parted, suggesting a state of contemplation or introspection.", shippingprice:"$14" },
+    { id: 8, imgSrc: p7, title: "Cityscape Twilight", price: "$200.00", theme: "Modern", description:"The painting features a woman's face, partially obscured by a vibrant mix of colors and textures. Her eyes are closed, and her lips are parted, suggesting a state of contemplation or introspection.", shippingprice:"$64" },
+    { id: 9, imgSrc: p8, title: "Dreamy Landscape", price: "$200.00", theme: "Modern", description:"The Mona Lisa is a renowned portrait by Leonardo da Vinci, famous for its enigmatic smile and captivating realism.", shippingprice:"$44" },
+    { id: 10, imgSrc: p9, title: "Lost in Thought", price: "$200.00", theme: "Modern", description:"The painting features a woman's face, partially obscured by a vibrant mix of colors and textures. Her eyes are closed, and her lips are parted, suggesting a state of contemplation or introspection.", shippingprice:"$74" },
+    { id: 11, imgSrc: p1, title: "The Fall in a Forest", price: "$175.00", theme: "Nature", description:"The painting features a woman's face, partially obscured by a vibrant mix of colors and textures. Her eyes are closed, and her lips are parted, suggesting a state of contemplation or introspection.", shippingprice:"$44" },
+    { id: 12, imgSrc: p3, title: "Abstract Colors", price: "$200.00", theme: "Modern", description:"The Mona Lisa is a renowned portrait by Leonardo da Vinci, famous for its enigmatic smile and captivating realism.", shippingprice:"$54" },
   ];
 
   // State to track liked items
@@ -51,8 +51,10 @@ function Buy() {
     <div className="app-container">
       {/* Search and Filter */}
       <div className="search-filter-container">
-        <input type="text" placeholder="Search for Art, Type, Theme and more" className="search-bar" />
-        <div className="icon">🔍</div>
+        <div className="search-bar-container">
+          <input type="text" placeholder="Search for Art, Type, Theme and more" className="search-bar" />
+          <div className="icon">🔍</div>
+        </div>
         <select className="dropdown" defaultValue="Size">
           <option value="" disabled>
             Size
@@ -77,7 +79,6 @@ function Buy() {
         {items.map((item) => (
           <div key={item.id} className="card" onClick={() => handleCardClick(item)}>
             <img src={item.imgSrc} alt={item.title} />
-           
             <div
               className="heart-icon"
               onClick={(e) => {

@@ -1,13 +1,12 @@
-.app-container {
+  .app-container {
     font-family: Arial, sans-serif;
     background-color: #e6e6e6;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 0%;
-    
   }
-  
+
   .search-filter-container {
     width: 100%;
     display: flex;
@@ -16,41 +15,48 @@
     align-items: center;
     margin-bottom: 20px;
   }
-  
-  .search-bar {
+
+  .search-bar-container {
+    position: relative;
     width: 60%;
+  }
+
+  .search-bar {
+    width: 100%;
     padding: 10px;
     font-size: 16px;
     border-radius: 20px;
     border: 1px solid #ccc;
   }
-  
+
   .icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
     font-size: 20px;
-    margin-left: 10px;
     color: #333;
     cursor: pointer;
   }
-  
+
   .dropdown {
     font-size: 16px;
     color: #050505;
     margin-left: 20px;
-    width:auto;
+    width: auto;
     background-color: transparent;
     border: none;
     cursor: pointer;
   }
-  
+
   .card-container {
     display: flex;
     gap: 50px;
     justify-content: center;
     width: 100%;
     flex-wrap: wrap;
-    
   }
-  
+
   .card {
     background-color: #fff;
     width: 200px;
@@ -59,40 +65,39 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
     padding: 10px;
-    position: relative; 
+    position: relative;
   }
-  
+
   .card img {
     width: 92%;
     height: 70%;
     object-fit: cover;
     border-radius: 12px;
   }
-  
+
   .card-title {
     font-weight: bold;
     font-size: 16px;
     margin: 10px 0 5px;
     text-align: left;
   }
-  
+
   .card-price {
     font-size: 14px;
     color: #333;
     font-weight: 600;
     text-align: left;
   }
-  
+
   .card-theme {
     font-size: 12px;
     color: #888;
     text-align: left;
   }
-  
-  
+
   .heart-icon {
     position: absolute;
-    top:55%;
+    top: 55%;
     right: 20px;
     font-size: 20px;
     color: blue;
@@ -101,11 +106,11 @@
     padding: 5px;
     cursor: pointer;
   }
-  
+
   .card:hover {
     transform: scale(1.09);
   }
+
   .heart-icon:hover {
     transform: scale(1.3);
   }
-   

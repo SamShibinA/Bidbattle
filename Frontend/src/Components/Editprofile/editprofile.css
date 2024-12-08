@@ -1,7 +1,7 @@
 .Editbox {
-  width: 100%; /* Adjust width to full on small screens */
+  width: 100%; 
 }
-hr{
+hr {
   border: 1px solid black;
 }
 
@@ -35,10 +35,25 @@ hr{
   border-radius: 5px;
 }
 
-.form-group .fa-camera {
+.file-input-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.file-input-wrapper input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding-right: 40px; /* Add space for the icon */
+}
+
+.file-input-wrapper .upload-icon {
   position: absolute;
   right: 10px;
-  top: 12px;
+  top: 50%;
+  transform: translateY(-50%);
   color: #999;
 }
 
