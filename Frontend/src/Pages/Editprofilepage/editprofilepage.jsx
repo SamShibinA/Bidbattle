@@ -4,7 +4,7 @@ import EditProfile from '../../Components/Editprofile/editprofile'
 
 const Editprofilepage = () => {
   return (
-    <div>
+    <div style={{background:"white"}} >
       <NavigationBar />
       <EditProfile />
     

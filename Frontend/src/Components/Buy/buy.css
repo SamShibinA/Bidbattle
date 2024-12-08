@@ -4,24 +4,29 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 0%;
-  height: 100rem;
+  margin-top: 0;
+  min-height: 100vh;
   width: 100%;
-
+  padding: 0 10px;
+  box-sizing: border-box;
 }
 
 .search-filter-container {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   padding: 20px;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  box-sizing: border-box;
 }
 
 .search-bar-container {
   position: relative;
-  width: 60%;
+  display: flex;
+  justify-content: space-evenly;
+  width: 50%;
 }
 
 .search-bar {
@@ -45,24 +50,26 @@
 .dropdown {
   font-size: 16px;
   color: #050505;
-  margin-left: 20px;
   width: auto;
   background-color: transparent;
   border: none;
   cursor: pointer;
+  margin: 5px;
 }
 
 .card-container {
   display: flex;
-  gap: 50px;
+  gap: 20px;
   justify-content: center;
   width: 100%;
   flex-wrap: wrap;
+  box-sizing: border-box;
 }
 
 .card {
   background-color: #fff;
-  width: 200px;
+  width: 100%;
+  max-width: 200px;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -73,7 +80,7 @@
 
 .card img {
   width: 92%;
-  height: 70%;
+  height: 60%;
   object-fit: cover;
   border-radius: 12px;
 }
@@ -112,10 +119,90 @@
 
 .card:hover {
   transform: scale(1.09);
+  transition: transform 0.3s ease;
 }
 
 .heart-icon:hover {
   transform: scale(1.3);
 }
 
+.no-result {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #555;
+  margin-top: 20px;
+}
 
+@media (max-width: 768px) {
+  .search-filter-container {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .dropdown {
+    margin-left: 0;
+  }
+
+  .card-container {
+    gap: 35px;
+  }
+
+  .card {
+    max-width: 180px;
+  }
+
+  .card img {
+    max-height: 60%;
+  }
+
+  .card-title {
+    font-size: 14px;
+  }
+
+  .card-price {
+    font-size: 12px;
+  }
+
+  .card-theme {
+    font-size: 11px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .search-filter-container {
+    padding: 10px;
+  }
+
+  .search-bar {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .card {
+    max-width: 10px;
+    padding: 5px;
+  }
+
+  .card img {
+    max-height: 100px;
+  }
+
+  .card-title {
+    font-size: 12px;
+  }
+
+  .card-price {
+    font-size: 10px;
+  }
+
+  .card-theme {
+    font-size: 10px;
+  }
+
+  .heart-icon {
+    top: 50%;
+    right: 10px;
+    font-size: 16px;
+  }
+}

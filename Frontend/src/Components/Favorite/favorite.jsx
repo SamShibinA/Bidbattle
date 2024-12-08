@@ -9,7 +9,6 @@ const Favorite = () => {
     { id: 1, image: p1 },
     { id: 2, image: p2 },
     { id: 3, image: p3 },
-    // Add more items as needed
   ];
 
   return (

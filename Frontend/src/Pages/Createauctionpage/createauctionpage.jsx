@@ -4,7 +4,7 @@ import CreateAuction from '../../Components/Createauction/createauction'
 
 const Createauctionpage = () => {
   return (
-    <div>
+    <div style={{background:"white"}} >
       <NavigationBar />
       <CreateAuction />
     </div>
