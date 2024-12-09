@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './navbar.css';
-import uimage from '../Assests/userlogo.png';
+import userimage from '../Assests/userlogo.png';
 import nimage from '../Assests/navlogo.png';
 import { Link } from 'react-router-dom';
 import Sidebar from '../Sidebar/sidebar';
@@ -49,7 +49,7 @@ function NavigationBar() {
                         <Link to="/Home"><li>Home</li></Link>
                     </ul>
                 </div>
-                <img src={uimage} id="uimg" alt="USERIMAGE" />
+                <img src={userimage} id="uimg" alt="USERIMAGE" />
             </div>
             
             {/* Conditionally render the Sidebar component */}
