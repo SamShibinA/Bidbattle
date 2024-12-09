@@ -14,6 +14,7 @@ function EditProfile() {
     country: '',
   });
   const [profilePicture, setProfilePicture] = useState(null);
+  const [errors, setErrors] = useState({}); // To store validation errors
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,8 +24,30 @@ function EditProfile() {
     setProfilePicture(e.target.files[0]);
   };
 
+  const validateFields = () => {
+    const newErrors = {};
+    const { name, phone, city, state, pincode, country } = formData;
+
+    if (!name) newErrors.name = 'Name is required';
+    if (!phone) newErrors.phone = 'Phone number is required';
+    if (!city) newErrors.city = 'City is required';
+    if (!state) newErrors.state = 'State is required';
+    if (!pincode) newErrors.pincode = 'Pincode is required';
+    if (!country) newErrors.country = 'Country is required';
+
+    setErrors(newErrors);
+
+    // Return true if no errors
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateFields()) {
+      // Stop form submission if validation fails
+      return;
+    }
 
     const token = localStorage.getItem('token'); // JWT stored in localStorage
 
@@ -64,6 +87,7 @@ function EditProfile() {
               value={formData.name}
               onChange={handleChange}
             />
+            {errors.name && <p className="error">{errors.name}</p>}
           </div>
           <div className="form-group">
             <label htmlFor="phone">Phone Number:</label>
@@ -75,6 +99,7 @@ function EditProfile() {
               value={formData.phone}
               onChange={handleChange}
             />
+            {errors.phone && <p className="error">{errors.phone}</p>}
           </div>
           <div className="form-group">
             <label htmlFor="city">City:</label>
@@ -86,6 +111,7 @@ function EditProfile() {
               value={formData.city}
               onChange={handleChange}
             />
+            {errors.city && <p className="error">{errors.city}</p>}
           </div>
           <div className="form-group">
             <label htmlFor="state">State:</label>
@@ -97,6 +123,9 @@ function EditProfile() {
               value={formData.state}
               onChange={handleChange}
             />
+            {errors.state && <p className="error">{errors.state}</p>}
+          </div>
+          <div className="form-group">
             <label htmlFor="pincode">Pincode:</label>
             <input
               type="text"
@@ -106,6 +135,7 @@ function EditProfile() {
               value={formData.pincode}
               onChange={handleChange}
             />
+            {errors.pincode && <p className="error">{errors.pincode}</p>}
           </div>
           <div className="form-group">
             <label htmlFor="country">Country:</label>
@@ -117,6 +147,7 @@ function EditProfile() {
               value={formData.country}
               onChange={handleChange}
             />
+            {errors.country && <p className="error">{errors.country}</p>}
           </div>
           <div className="form-group file-upload-container">
             <label htmlFor="profilePicture">Upload Photo:</label>
@@ -135,6 +166,3 @@ function EditProfile() {
 }
 
 export default EditProfile;
-
-
-

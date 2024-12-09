@@ -18,7 +18,16 @@ router.get('/', authenticateToken, async (req, res) => {
   try {
     const profile = await Profile.findOne({ userId: req.user.userId });
     if (!profile) return res.status(404).json({ message: 'Profile not found' });
-    res.status(200).json(profile);
+
+    const profileWithImageURL = {
+      ...profile.toObject(),
+      profilePicture: profile.profilePicture
+        ? `${req.protocol}://${req.get('host')}/uploads/${profile.profilePicture}`
+        : null,
+    };
+
+    console.log('Profile fetched:', profileWithImageURL); // Debug
+    res.status(200).json(profileWithImageURL);
   } catch (err) {
     console.error('Error fetching profile:', err);
     res.status(500).json({ message: 'Failed to fetch profile' });
@@ -44,10 +53,19 @@ router.put('/', authenticateToken, upload.single('profilePicture'), async (req, 
           ...(profilePicture && { profilePicture }),
         },
       },
-      { new: true, upsert: true } // Create new profile if not exists
+      { new: true, upsert: true }
     );
 
-    res.status(200).json({ message: 'Profile updated successfully', updatedProfile });
+    console.log('Updated profile:', updatedProfile); // Debug
+    res.status(200).json({
+      message: 'Profile updated successfully',
+      updatedProfile: {
+        ...updatedProfile.toObject(),
+        profilePicture: profilePicture
+          ? `${req.protocol}://${req.get('host')}/uploads/${profilePicture}`
+          : updatedProfile.profilePicture,
+      },
+    });
   } catch (err) {
     console.error('Error updating profile:', err);
     res.status(500).json({ message: 'Failed to update profile' });
