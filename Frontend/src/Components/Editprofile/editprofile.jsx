@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './editprofile.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,6 +15,33 @@ function EditProfile() {
   });
   const [profilePicture, setProfilePicture] = useState(null);
   const [errors, setErrors] = useState({}); // To store validation errors
+
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      const token = localStorage.getItem('token'); // JWT stored in localStorage
+      try {
+        const response = await axios.get('http://localhost:5000/api/profile', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setFormData({
+          name: response.data.name || '',
+          phone: response.data.phone || '',
+          city: response.data.city || '',
+          state: response.data.state || '',
+          pincode: response.data.pincode || '',
+          country: response.data.country || '',
+        });
+        setProfilePicture(response.data.profilePicture || null); // Set profile picture URL if available
+      } catch (error) {
+        console.error('Error fetching profile data:', error.response?.data || error.message);
+        alert('Failed to fetch profile data');
+      }
+    };
+
+    fetchProfileData();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

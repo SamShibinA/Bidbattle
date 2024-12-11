@@ -40,3 +40,4 @@ app.use('/api/auction', auctionRoutes); // Add auction route
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+

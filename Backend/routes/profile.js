@@ -72,4 +72,5 @@ router.put('/', authenticateToken, upload.single('profilePicture'), async (req, 
   }
 });
 
+
 module.exports = router;
