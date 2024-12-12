@@ -36,7 +36,7 @@ function EditProfile() {
         setProfilePicture(response.data.profilePicture || null); // Set profile picture URL if available
       } catch (error) {
         console.error('Error fetching profile data:', error.response?.data || error.message);
-        alert('Failed to fetch profile data');
+        // alert('Failed to fetch profile data');
       }
     };
 
@@ -61,6 +61,7 @@ function EditProfile() {
     if (!state) newErrors.state = 'State is required';
     if (!pincode) newErrors.pincode = 'Pincode is required';
     if (!country) newErrors.country = 'Country is required';
+    if (!profilePicture) newErrors.profilePicture = 'Profile picture is required';
 
     setErrors(newErrors);
 
@@ -182,6 +183,7 @@ function EditProfile() {
               <input type="file" id="profilePicture" name="profilePicture" onChange={handleFileChange} />
               <FontAwesomeIcon icon={faUpload} className="upload-icon" />
             </div>
+            {errors.profilePicture && <p className="error">{errors.profilePicture}</p>}
           </div>
           <button type="submit" className="save-button">
             SAVE

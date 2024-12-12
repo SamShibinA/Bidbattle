@@ -11,27 +11,27 @@ const Payment = () => {
     return <h2 className="error-message">No item details available. Please try again.</h2>;
   }
 
-  // Calculate total (Items Total + Shipping Fees + Escrow Fees)
+  // Safely parse prices and set defaults
   const escrowFees = 20; // Fixed escrow fees
-  const itemsTotal = parseFloat(item.price.replace('$', '')); // Remove dollar sign and convert to number
-  const shippingFees = parseFloat(item.shippingprice.replace('$', '')); // Remove dollar sign and convert to number
-  const totalAmount = itemsTotal + shippingFees + escrowFees; // Sum up the totals
+  const itemsTotal = parseFloat(item.price || 0); // Default to 0 if price is missing
+  const shippingFees = parseFloat(item.shippingprice || 0); // Default to 0 if shipping price is missing
+  const totalAmount = itemsTotal + shippingFees + escrowFees;
 
   return (
     <div className="product-card-container">
       <div className="product-image">
-        <img src={item.imgSrc} alt={item.title} />
+        <img src={`http://localhost:5000/${item.imageUrl}`} alt={item.productName} />
       </div>
       <div className="product-details">
-        <h1>{item.title}</h1>
-        <h2>{item.price}</h2>
-          <p><b>Theme: </b>{item.theme}</p>
+        <h1>{item.productName}</h1>
+        <h2>${item.price}</h2>
+        <p><b>Theme:</b> {item.theme}</p>
         <div className="price-details">
-          <p><b>Items Total:</b> {item.price}</p>
-          <p><b>Shipping Fees:</b> {item.shippingprice}</p>
-          <p><b>Sescrow Fees:</b> ${escrowFees}</p>
+          <p><b>Items Total:</b> ${itemsTotal.toFixed(2)}</p>
+          <p><b>Shipping Fees:</b> ${shippingFees.toFixed(2)}</p>
+          <p><b>Escrow Fees:</b> ${escrowFees.toFixed(2)}</p>
           <hr />
-          <p><strong>TOTAL: ${totalAmount}</strong></p>
+          <p><strong>TOTAL: ${totalAmount.toFixed(2)}</strong></p>
         </div>
         <button className="payment-button">Make Payment</button>
       </div>

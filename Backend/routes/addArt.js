@@ -38,4 +38,14 @@ router.post('/add', upload.single('image'), async (req, res) => {
   }
 });
 
+// Route to fetch all artworks from the database
+router.get('/all', async (req, res) => {
+  try {
+    const allArtworks = await Buy.find(); // Fetch all items from the Buy collection
+    res.status(200).json(allArtworks);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch artworks', details: err.message });
+  }
+});
+
 module.exports = router;
