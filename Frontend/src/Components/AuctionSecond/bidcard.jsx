@@ -6,7 +6,7 @@ const BidCardAuction = () => {
   const location = useLocation();
   const {
     imageUrl,
-    text,
+    text = "Ends in", // Provide a default value
     title,
     theme,
     size,
@@ -23,7 +23,6 @@ const BidCardAuction = () => {
     if (parseFloat(bid) > highestBid) {
       setHighestBid(parseFloat(bid));
       setBidder("You"); // Update the bidder name
-      // alert("Bid successfully placed!");
     } else {
       alert("Your bid must be higher than the current highest bid.");
     }
@@ -34,7 +33,11 @@ const BidCardAuction = () => {
     <div className="fullscreen-container">
       <div className="bid-card">
         <div className="image-section">
-          <img src={imageUrl} alt={title} />
+          <img
+            src={`http://localhost:5000/${imageUrl}`} // Ensure the URL is correctly prefixed
+            alt={title || "Artwork"} // Provide a fallback alt text
+            className="bid-image"
+          />
         </div>
         <div className="details-section">
           <h2>The Highest Bid</h2>
@@ -66,18 +69,18 @@ const BidCardAuction = () => {
           </div>
           <hr />
           <div className="art-details">
-            <h3>{title}</h3>
+            <h3>{title || "Untitled Artwork"}</h3>
             <p>
-              <strong>Theme:</strong> {theme}
+              <strong>Theme:</strong> {theme || "Not specified"}
             </p>
             <p>
-              <strong>Size:</strong> {size}
+              <strong>Size:</strong> {size || "Not specified"}
             </p>
             <p>
-              <strong>Type:</strong> {type}
+              <strong>Type:</strong> {type || "Not specified"}
             </p>
             <p>
-              <strong>Description:</strong> {description}
+              <strong>Description:</strong> {description || "No description provided"}
             </p>
           </div>
         </div>
@@ -87,4 +90,3 @@ const BidCardAuction = () => {
 };
 
 export default BidCardAuction;
-

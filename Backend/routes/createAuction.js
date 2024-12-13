@@ -24,31 +24,26 @@ router.post('/create', upload.single('image'), async (req, res) => {
       description,
       startingBid,
       shippingFee,
-      startDateTime, // Ensure these are coming from the body
-      endDateTime, // Ensure these are coming from the body
+      startDateTime,
+      endDateTime,
       type,
       size,
       theme,
     } = req.body;
 
-    // Check if the startDateTime and endDateTime are correctly passed
     if (!startDateTime || !endDateTime) {
       return res.status(400).json({ message: 'startDateTime and endDateTime are required' });
     }
 
-    // Convert the startDateTime and endDateTime to Date objects
     const parsedStartDate = new Date(startDateTime);
     const parsedEndDate = new Date(endDateTime);
 
-    // If the parsing fails, return an error
     if (isNaN(parsedStartDate) || isNaN(parsedEndDate)) {
       return res.status(400).json({ message: 'Invalid date format' });
     }
 
-    // Process the image URL from multer
     const imageUrl = req.file ? req.file.path : '';
 
-    // Create a new Auction document
     const auction = new Auction({
       productName,
       description,
@@ -62,10 +57,8 @@ router.post('/create', upload.single('image'), async (req, res) => {
       imageUrl,
     });
 
-    // Save the auction to the database
     await auction.save();
 
-    // Respond with success
     res.status(201).json({
       message: 'Auction created successfully!',
       auction,
@@ -73,6 +66,17 @@ router.post('/create', upload.single('image'), async (req, res) => {
   } catch (error) {
     console.error('Error creating auction:', error);
     res.status(500).json({ message: 'Failed to create auction' });
+  }
+});
+
+// Route to fetch all auctions
+router.get('/', async (req, res) => {
+  try {
+    const auctions = await Auction.find(); // Fetch all auction items from the database
+    res.status(200).json({ auctions });
+  } catch (error) {
+    console.error('Error fetching auctions:', error);
+    res.status(500).json({ message: 'Failed to fetch auctions' });
   }
 });
 
