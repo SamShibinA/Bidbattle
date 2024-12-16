@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
-const Buy = require('../models/Buy');
+const Buy = require('../models/Buy'); // Model for Buy collection
 
 const router = express.Router();
 
@@ -45,6 +45,22 @@ router.get('/all', async (req, res) => {
     res.status(200).json(allArtworks);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch artworks', details: err.message });
+  }
+});
+
+// Route to remove artwork by its ID
+router.delete('/remove/:id', async (req, res) => {
+  try {
+    const artId = req.params.id;
+    const deletedArt = await Buy.findByIdAndDelete(artId); // Delete artwork by its ID
+
+    if (!deletedArt) {
+      return res.status(404).json({ error: 'Art not found' });
+    }
+
+    res.status(200).json({ message: 'Art removed successfully' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to remove art', details: err.message });
   }
 });
 
