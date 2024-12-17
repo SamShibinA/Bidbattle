@@ -1,7 +1,8 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
-const Buy = require('../models/Buy'); // Model for Buy collection
+const Buy = require('../models/Buy');
+const { authenticateToken } = require('../middlewares/auth'); // Import authentication middleware
 
 const router = express.Router();
 
@@ -17,23 +18,33 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Route to handle "Add Art"
-router.post('/add', upload.single('image'), async (req, res) => {
+router.post('/add', authenticateToken, upload.single('image'), async (req, res) => {
   try {
+    // Extract userId from the authenticated user (from the token)
+    const userId = req.user.userId; // This is set by the authenticateToken middleware
+
+    // Destructure the form data
     const { productName, description, price, shippingFee, type, size, theme } = req.body;
+    const imageUrl = req.file ? req.file.path : null; // Path to the uploaded image file
+
+    // Create a new artwork entry in the database
     const newArt = new Buy({
       productName,
-      imageUrl: req.file.path, // Path to the uploaded image
+      imageUrl,
       description,
       price,
       shippingFee,
       type,
       size,
       theme,
+      userId, // Associate the artwork with the authenticated user
     });
 
+    // Save the artwork to the database
     await newArt.save();
     res.status(201).json({ message: 'Art added successfully!', art: newArt });
   } catch (err) {
+    console.error('Error adding art:', err);
     res.status(500).json({ error: 'Failed to add art', details: err.message });
   }
 });
@@ -44,23 +55,8 @@ router.get('/all', async (req, res) => {
     const allArtworks = await Buy.find(); // Fetch all items from the Buy collection
     res.status(200).json(allArtworks);
   } catch (err) {
+    console.error('Error fetching artworks:', err);
     res.status(500).json({ error: 'Failed to fetch artworks', details: err.message });
-  }
-});
-
-// Route to remove artwork by its ID
-router.delete('/remove/:id', async (req, res) => {
-  try {
-    const artId = req.params.id;
-    const deletedArt = await Buy.findByIdAndDelete(artId); // Delete artwork by its ID
-
-    if (!deletedArt) {
-      return res.status(404).json({ error: 'Art not found' });
-    }
-
-    res.status(200).json({ message: 'Art removed successfully' });
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to remove art', details: err.message });
   }
 });
 

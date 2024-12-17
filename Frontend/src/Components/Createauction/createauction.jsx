@@ -52,8 +52,12 @@ function CreateAuction() {
     }
 
     try {
+      const token = localStorage.getItem('token'); // Assuming token is saved in local storage
       const response = await axios.post('http://localhost:5000/api/auction/create', data, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: { 
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`, // Send JWT token in Authorization header
+        },
       });
       alert('Auction created successfully!');
       console.log(response.data);

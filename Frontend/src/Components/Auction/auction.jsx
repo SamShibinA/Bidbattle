@@ -1,74 +1,92 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import "./auction.css";
+const express = require('express');
+const router = express.Router();
+const multer = require('multer');
+const path = require('path');
+const Auction = require('../models/Auction');
+const { authenticateToken } = require('../middlewares/auth'); // Import authenticateToken
 
-const Auction = () => {
-  const [items, setItems] = useState([]); // State to store auction items
-  const [timeRemaining, setTimeRemaining] = useState({});
+// Setup multer for image upload
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
 
-  // Function to calculate the remaining time for each item
-  const calculateTimeRemaining = (endTime) => {
-    const endDate = new Date(endTime);
-    const currentDate = new Date();
-    const remainingTime = endDate - currentDate;
+const upload = multer({ storage: storage });
 
-    if (remainingTime <= 0) {
-      return "Expired";
+// Route to create a new auction
+router.post('/create', authenticateToken, upload.single('image'), async (req, res) => {
+  try {
+    const {
+      productName,
+      description,
+      startingBid,
+      shippingFee,
+      startDateTime,
+      endDateTime,
+      type,
+      size,
+      theme,
+    } = req.body;
+
+    // Validate required fields
+    if (!startDateTime || !endDateTime) {
+      return res.status(400).json({ message: 'startDateTime and endDateTime are required' });
     }
 
-    const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+    const parsedStartDate = new Date(startDateTime);
+    const parsedEndDate = new Date(endDateTime);
 
-    return `${days}d:${hours}h:${minutes}m:${seconds}s`;
-  };
+    if (isNaN(parsedStartDate) || isNaN(parsedEndDate)) {
+      return res.status(400).json({ message: 'Invalid date format' });
+    }
 
-  // Fetch auction items from the backend
-  useEffect(() => {
-    const fetchAuctionItems = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/api/auction"); // Adjust to your API route
-        const data = await response.json();
-        setItems(data.auctions); // Set fetched auction items
-      } catch (error) {
-        console.error("Failed to fetch auction items:", error);
-      }
-    };
+    // Get the image URL from the uploaded file
+    const imageUrl = req.file ? req.file.path : '';
 
-    fetchAuctionItems();
-  }, []);
+    // Create a new auction document
+    const auction = new Auction({
+      productName,
+      description,
+      startingBid,
+      shippingFee,
+      startDateTime: parsedStartDate,
+      endDateTime: parsedEndDate,
+      type,
+      size,
+      theme,
+      imageUrl,
+      userId: req.user.userId, // Store the userId from the JWT
+    });
 
-  useEffect(() => {
-    // Set up the countdown interval for each item
-    const interval = setInterval(() => {
-      const updatedTimeRemaining = items.reduce((acc, item) => {
-        acc[item._id] = calculateTimeRemaining(item.endDateTime);
-        return acc;
-      }, {});
-      setTimeRemaining(updatedTimeRemaining);
-    }, 1000); // Update every second
+    // Save the auction to the database
+    await auction.save();
 
-    return () => clearInterval(interval);
-  }, [items]);
+    res.status(201).json({
+      message: 'Auction created successfully!',
+      auction,
+    });
+  } catch (error) {
+    console.error('Error creating auction:', error);
+    res.status(500).json({ message: 'Failed to create auction' });
+  }
+});
 
-  return (
-    <div className="container">
-      {items.map((item) => (
-        <div key={item._id} className="card">
-          <Link to="/BidcardAuction" state={item}>
-            <img src={`http://localhost:5000/${item.imageUrl}`} alt="artwork" className="image" />
-            <div className="text" style={{ color: "#C53742" }}>
-              {item.productName}
-            </div>
-            <div className="time">
-              {timeRemaining[item._id] || "Loading..."}
-            </div>
-          </Link>
-        </div>
-      ))}
-    </div>
-  );
-};
+// Route to fetch all auctions
+router.get('/auction', async (req, res) => {
+  try {
+    const auctions = await Auction.find(); // Retrieve all auctions from the database
+    if (!auctions.length) {
+      return res.status(404).json({ message: 'No auctions found' });
+    }
+    res.status(200).json({ auctions });
+  } catch (error) {
+    console.error('Error fetching auctions:', error);
+    res.status(500).json({ message: 'Failed to fetch auctions' });
+  }
+});
 
-export default Auction;
+module.exports = router;

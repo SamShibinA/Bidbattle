@@ -34,9 +34,14 @@ function Addart() {
     data.append('theme', formData.theme);
     data.append('image', image);
 
+    const token = localStorage.getItem('token'); // Get the JWT token from localStorage
+
     try {
       const response = await axios.post('http://localhost:5000/api/art/add', data, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: { 
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}`, // Send the token for authentication
+        },
       });
       alert('Art added successfully!');
       console.log(response.data);
@@ -125,7 +130,6 @@ function Addart() {
                 <option value="24' X 36'">24' X 36'</option>
                 <option value="30' X 40'">30' X 40'</option>
                 <option value="36' X 48'">36' X 48'</option>
-                
               </select>
             </div>
             <div className="form-group">
