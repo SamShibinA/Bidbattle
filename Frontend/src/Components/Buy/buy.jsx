@@ -5,47 +5,100 @@ import "./buy.css";
 function Buy() {
   const navigate = useNavigate();
 
-  // State to hold fetched data
   const [artworks, setArtworks] = useState([]);
   const [likedItems, setLikedItems] = useState({});
   const [sizeFilter, setSizeFilter] = useState("");
   const [sortOption, setSortOption] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Fetch data from backend on component mount
+  // Fetch artworks and favorites on component mount
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/art/all"); // API endpoint
-        const data = await response.json();
-        setArtworks(data); // Save fetched data to state
+        // Fetch artworks
+        const artResponse = await fetch("http://localhost:5000/api/art/all");
+        const artData = await artResponse.json();
+        setArtworks(artData);
+
+        // Fetch favorite items
+        const favoriteResponse = await fetch(
+          "http://localhost:5000/api/favorite/all"
+        );
+        const favoriteData = await favoriteResponse.json();
+
+        // Prepopulate likedItems state
+        const likedMap = {};
+        favoriteData.forEach((fav) => {
+          likedMap[fav.productId] = true;
+        });
+        setLikedItems(likedMap);
       } catch (error) {
-        console.error("Error fetching artworks:", error);
+        console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
   }, []);
 
-  const toggleLike = (itemId) => {
+  // Toggle like/unlike functionality
+  const toggleLike = async (item) => {
+    const isLiked = likedItems[item._id];
+
+    if (isLiked) {
+      // Unlike: Remove from favorites
+      try {
+        await fetch(`http://localhost:5000/api/favorite/remove/${item._id}`, {
+          method: "DELETE",
+        });
+        console.log("Removed from favorites");
+      } catch (error) {
+        console.error("Error removing favorite:", error);
+      }
+    } else {
+      // Like: Add to favorites
+      try {
+        await fetch("http://localhost:5000/api/favorite/add", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            productId: item._id,
+            productName: item.productName,
+            imageUrl: item.imageUrl,
+            theme: item.theme,
+            price: item.price,
+          }),
+        });
+        console.log("Added to favorites");
+      } catch (error) {
+        console.error("Error adding favorite:", error);
+      }
+    }
+
+    // Update the likedItems state
     setLikedItems((prevLikedItems) => ({
       ...prevLikedItems,
-      [itemId]: !prevLikedItems[itemId],
+      [item._id]: !isLiked,
     }));
   };
 
+  // Handle card click to navigate
   const handleCardClick = (item) => {
     navigate("/buycard", { state: item });
   };
 
   // Filter and sort artworks
   const filteredAndSortedItems = artworks
-    .filter((item) => (sizeFilter ? item.size.includes(sizeFilter) : true))
+    .filter((item) =>
+      sizeFilter ? item.size.includes(sizeFilter) : true
+    )
     .filter(
       (item) =>
         item.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.theme.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.description.toLowerCase().includes(searchTerm.toLowerCase())
+        (item.description &&
+          item.description.toLowerCase().includes(searchTerm.toLowerCase()))
     )
     .sort((a, b) => {
       if (sortOption === "low-to-high") {
@@ -60,6 +113,7 @@ function Buy() {
 
   return (
     <div className="app-container">
+      {/* Search and filter controls */}
       <div className="search-filter-container">
         <div className="search-bar-container">
           <input
@@ -71,7 +125,11 @@ function Buy() {
           />
           <div className="icon">🔍</div>
         </div>
-        <select className="dropdown" value={sizeFilter} onChange={(e) => setSizeFilter(e.target.value)}>
+        <select
+          className="dropdown"
+          value={sizeFilter}
+          onChange={(e) => setSizeFilter(e.target.value)}
+        >
           <option value="">Size</option>
           <option value="8' X 10'">8' X 10'</option>
           <option value="9' X 12'">9' X 12'</option>
@@ -84,26 +142,38 @@ function Buy() {
           <option value="30' X 40'">30' X 40'</option>
           <option value="36' X 48'">36' X 48'</option>
         </select>
-        <select className="dropdown" value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
-          <option value="">Filter</option>
-          <option value="low-to-high">Low to High</option>
-          <option value="high-to-low">High to Low</option>
+        <select
+          className="dropdown"
+          value={sortOption}
+          onChange={(e) => setSortOption(e.target.value)}
+        >
+          <option value="">Sort</option>
+          <option value="low-to-high">Price: Low to High</option>
+          <option value="high-to-low">Price: High to Low</option>
           <option value="newest-first">Newest First</option>
         </select>
       </div>
 
+      {/* Cards */}
       <div className="card-container">
         {filteredAndSortedItems.length === 0 ? (
-          <div className="no-result">No Result</div>
+          <div className="no-result">No Results Found</div>
         ) : (
           filteredAndSortedItems.map((item) => (
-            <div key={item._id} className="card" onClick={() => handleCardClick(item)}>
-              <img src={`http://localhost:5000/${item.imageUrl}`} alt={item.productName} />
+            <div
+              key={item._id}
+              className="card"
+              onClick={() => handleCardClick(item)}
+            >
+              <img
+                src={`http://localhost:5000/${item.imageUrl}`}
+                alt={item.productName}
+              />
               <div
                 className="heart-icon"
                 onClick={(e) => {
                   e.stopPropagation();
-                  toggleLike(item._id);
+                  toggleLike(item);
                 }}
                 style={{
                   color: likedItems[item._id] ? "red" : "gray",

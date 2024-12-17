@@ -52,8 +52,12 @@ function CreateAuction() {
     }
 
     try {
+      const token = localStorage.getItem('token'); // Assuming token is saved in local storage
       const response = await axios.post('http://localhost:5000/api/auction/create', data, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: { 
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`, // Send JWT token in Authorization header
+        },
       });
       alert('Auction created successfully!');
       console.log(response.data);
@@ -162,10 +166,16 @@ function CreateAuction() {
                 value={formData.size}
                 onChange={handleChange}
               >
-                <option value="">Select Size</option>
-                <option value="small">11" X 14"</option>
-                <option value="medium">20" X 24"</option>
-                <option value="large">30" X 40"</option>
+                <option value="8' X 10'">8' X 10'</option>
+                <option value="9' X 12'">9' X 12'</option>
+                <option value="11' X 14'">11' X 14'</option>
+                <option value="16' X 20'">16' X 20'</option>
+                <option value="18' X 24'">18' X 24'</option>
+                <option value="20' X 24'">20' X 24'</option>
+                <option value="24' X 30'">24' X 30'</option>
+                <option value="24' X 36'">24' X 36'</option>
+                <option value="30' X 40'">30' X 40'</option>
+                <option value="36' X 48'">36' X 48'</option>
               </select>
             </div>
             <div className="form-group">

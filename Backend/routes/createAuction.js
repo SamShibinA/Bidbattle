@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
-const Auction = require('../models/Auction'); // Import the Auction model
+const Auction = require('../models/Auction');
+const { authenticateToken } = require('../middlewares/auth'); // Import authenticateToken
 
 // Setup multer for image upload
 const storage = multer.diskStorage({
@@ -17,7 +18,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Route to create a new auction
-router.post('/create', upload.single('image'), async (req, res) => {
+router.post('/create', authenticateToken, upload.single('image'), async (req, res) => {
   try {
     const {
       productName,
@@ -31,6 +32,7 @@ router.post('/create', upload.single('image'), async (req, res) => {
       theme,
     } = req.body;
 
+    // Validate required fields
     if (!startDateTime || !endDateTime) {
       return res.status(400).json({ message: 'startDateTime and endDateTime are required' });
     }
@@ -42,8 +44,10 @@ router.post('/create', upload.single('image'), async (req, res) => {
       return res.status(400).json({ message: 'Invalid date format' });
     }
 
+    // Get the image URL from the uploaded file
     const imageUrl = req.file ? req.file.path : '';
 
+    // Create a new auction document
     const auction = new Auction({
       productName,
       description,
@@ -55,8 +59,10 @@ router.post('/create', upload.single('image'), async (req, res) => {
       size,
       theme,
       imageUrl,
+      userId: req.user.userId, // Store the userId from the JWT
     });
 
+    // Save the auction to the database
     await auction.save();
 
     res.status(201).json({
@@ -66,17 +72,6 @@ router.post('/create', upload.single('image'), async (req, res) => {
   } catch (error) {
     console.error('Error creating auction:', error);
     res.status(500).json({ message: 'Failed to create auction' });
-  }
-});
-
-// Route to fetch all auctions
-router.get('/', async (req, res) => {
-  try {
-    const auctions = await Auction.find(); // Fetch all auction items from the database
-    res.status(200).json({ auctions });
-  } catch (error) {
-    console.error('Error fetching auctions:', error);
-    res.status(500).json({ message: 'Failed to fetch auctions' });
   }
 });
 

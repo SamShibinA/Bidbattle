@@ -52,8 +52,9 @@
 
 .buycard-actions {
   display: flex;
-  gap: 15px; /* Reduced gap between buttons */
+  justify-content: center;
   margin-top: 15px; /* Reduced margin */
+
 }
 
 .btn-favourite, .btn-buy {

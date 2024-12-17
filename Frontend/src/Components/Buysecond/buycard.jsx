@@ -50,9 +50,9 @@ const BuyCard = () => {
             </>
           )}
           <div className="buycard-actions">
-            <button className="btn-favourite">ADD TO FAVOURITE</button>
+            
             <Link to="/payment" state={itemWithShipping}>
-              <button className="btn-buy">BUY</button>
+              <button className="btn-buy" style={{alignItems:"center"}}>BUY</button>
             </Link>
           </div>
         </div>

@@ -10,6 +10,8 @@ const authRoutes = require('./routes/auth');
 const profileRoutes = require('./routes/profile');
 const addArtRoute = require('./routes/addArt');
 const auctionRoutes = require('./routes/createAuction'); // Import auction route
+const favoriteRoutes = require('./routes/favorite'); // Add this line
+
 
 dotenv.config(); // Load environment variables
 
@@ -23,18 +25,19 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Serve u
 
 // MongoDB Connection
 mongoose
-  .connect(process.env.MONGO_URI || 'mongodb://localhost:27017/bidbattle')
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((err) => {
-    console.error('Failed to connect to MongoDB:', err.message);
-    process.exit(1);
-  });
+.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/bidbattle')
+.then(() => console.log('Connected to MongoDB'))
+.catch((err) => {
+  console.error('Failed to connect to MongoDB:', err.message);
+  process.exit(1);
+});
 
 // Routes
 app.use('/api', authRoutes); // Auth routes
 app.use('/api/profile', profileRoutes); // Profile routes
 app.use('/api/art', addArtRoute); // Add Art routes
 app.use('/api/auction', auctionRoutes); // Add auction route
+app.use('/api/favorite', favoriteRoutes); // Add this line
 
 // Start Server
 app.listen(PORT, () => {
