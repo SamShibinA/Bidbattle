@@ -1,30 +1,29 @@
 const express = require("express");
 const router = express.Router();
-const Favorite = require("../models/Favorite"); // Import the Favorite model
-const Buy = require("../models/Buy"); // Import the Buy model
+const Favorite = require("../models/Favorite"); 
+const Buy = require("../models/Buy"); 
 
-// Route to get all favorites
+
 router.get("/all", async (req, res) => {
   try {
-    const favorites = await Favorite.find().populate("productId"); // Populate to get full product details
+    const favorites = await Favorite.find().populate("productId"); 
     res.json(favorites);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-// Route to add a favorite (fetch full details from Buy table)
 router.post("/add", async (req, res) => {
   const { productId, userId } = req.body;
 
   try {
-    // Fetch the product details from the Buy table
+    
     const product = await Buy.findById(productId);
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    // Check if the product is already in favorites
+    
     const existingFavorite = await Favorite.findOne({ productId });
     if (existingFavorite) {
       return res
@@ -32,7 +31,7 @@ router.post("/add", async (req, res) => {
         .json({ message: "Product is already in favorites" });
     }
 
-    // Create a new favorite item with all product details
+    
     const newFavorite = new Favorite({
       productId: product._id,
       productName: product.productName,
@@ -43,10 +42,9 @@ router.post("/add", async (req, res) => {
       type: product.type,
       size: product.size,
       theme: product.theme,
-      userId: userId || product.userId, // Assign the userId from the body or from product
+      userId: userId || product.userId, 
     });
 
-    // Save the favorite item to the database
     await newFavorite.save();
 
     res.status(201).json({ message: "Added to favorites successfully", newFavorite });
@@ -56,7 +54,6 @@ router.post("/add", async (req, res) => {
   }
 });
 
-// Route to remove a favorite by productId
 router.delete("/remove/:productId", async (req, res) => {
   const { productId } = req.params;
 

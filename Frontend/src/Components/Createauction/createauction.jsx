@@ -19,7 +19,6 @@ function CreateAuction() {
 
   const [image, setImage] = useState(null);
 
-  // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -28,12 +27,10 @@ function CreateAuction() {
     });
   };
 
-  // Handle image file changes
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -48,15 +45,15 @@ function CreateAuction() {
     data.append('size', formData.size);
     data.append('theme', formData.theme);
     if (image) {
-      data.append('image', image); // Add image to FormData
+      data.append('image', image);
     }
 
     try {
-      const token = localStorage.getItem('token'); // Assuming token is saved in local storage
+      const token = localStorage.getItem('token');
       const response = await axios.post('http://localhost:5000/api/auction/create', data, {
         headers: { 
           'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`, // Send JWT token in Authorization header
+          Authorization: `Bearer ${token}`,
         },
       });
       alert('Auction created successfully!');
@@ -165,7 +162,8 @@ function CreateAuction() {
                 name="size"
                 value={formData.size}
                 onChange={handleChange}
-              >
+              > 
+                <option value="">Size</option>
                 <option value="8' X 10'">8' X 10'</option>
                 <option value="9' X 12'">9' X 12'</option>
                 <option value="11' X 14'">11' X 14'</option>

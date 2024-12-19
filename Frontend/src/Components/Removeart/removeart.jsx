@@ -7,12 +7,11 @@ const RemoveArt = () => {
   const [artItems, setArtItems] = useState([]);
 
   useEffect(() => {
-    // Fetch the user's artwork from the backend
     const fetchArtItems = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/art/all"); // Get all art items from the server
+        const response = await fetch("http://localhost:5000/api/art/all"); 
         const data = await response.json();
-        setArtItems(data); // Store them in the state
+        setArtItems(data); 
       } catch (error) {
         console.error("Error fetching art items:", error);
       }
@@ -21,16 +20,13 @@ const RemoveArt = () => {
     fetchArtItems();
   }, []);
 
-  // Function to handle removing an item by its ID
   const handleRemove = async (id) => {
     try {
-      // Call the API to remove the art by its ID
       const response = await fetch(`http://localhost:5000/api/art/remove/${id}`, {
         method: 'DELETE',
       });
 
       if (response.ok) {
-        // If the delete request was successful, update the state to remove the item
         const updatedItems = artItems.filter(item => item._id !== id);
         setArtItems(updatedItems);
       } else {
@@ -55,13 +51,13 @@ const RemoveArt = () => {
             artItems.map((item) => (
               <div key={item._id} className="art-item">
                 <img
-                  src={`http://localhost:5000/${item.imageUrl}`} // Use the full image URL
+                  src={`http://localhost:5000/${item.imageUrl}`} 
                   alt={`Art ${item._id}`}
                   className="art-image"
                 />
                 <button
                   className="remove-button"
-                  onClick={() => handleRemove(item._id)} // Call handleRemove with the artwork ID
+                  onClick={() => handleRemove(item._id)}
                 >
                   Remove
                 </button>

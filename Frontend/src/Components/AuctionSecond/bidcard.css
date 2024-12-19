@@ -24,8 +24,8 @@
 }
 
 .image-section img {
-  width: 300px; /* Fixed width */
-  height: 400px; /* Fixed height */
+  width: 300px; 
+  height: 400px; 
   object-fit: cover;
   border-radius: 8px;
 }
@@ -104,18 +104,15 @@ h3 {
   color: #333;
 }
 
-/* Responsive Breakpoints */
-
-/* For Tablets and Smaller Screens (max-width: 768px) */
 @media (max-width: 768px) {
   .bid-card {
-    flex-direction: column;  /* Stack the content vertically */
+    flex-direction: column;  
     padding: 15px;
   }
 
   .image-section img {
-    width: 300px;  /* Keep image size fixed */
-    height: 400px;  /* Keep image size fixed */
+    width: 300px; 
+    height: 400px;  
   }
 
   .details-section {
@@ -151,15 +148,14 @@ h3 {
   }
 }
 
-/* For Mobile (max-width: 480px) */
 @media (max-width: 480px) {
   .bid-card {
     padding: 10px;
   }
 
   .image-section img {
-    width: 300px; /* Keep image size fixed */
-    height: 400px; /* Keep image size fixed */
+    width: 300px;
+    height: 400px; 
   }
 
   .details-section {
@@ -193,14 +189,13 @@ h3 {
   }
 }
 
-/* Full-Screen Mode */
 :fullscreen .image-section img {
-  width: 80%;  /* Increase width */
-  height: auto; /* Adjust height accordingly */
+  width: 80%;  
+  height: auto; 
 }
 
 :fullscreen .bid-card {
-  max-width: none; /* Remove max width for full screen */
+  max-width: none; 
   width: 100%;
   padding: 40px;
 }
@@ -210,10 +205,9 @@ h3 {
   padding-left: 20px;
 }
 
-/* For larger screens (min-width: 1200px) */
 @media (min-width: 1200px) {
   .bid-card {
-    flex-direction: row; /* Horizontal layout */
+    flex-direction: row; 
     padding: 30px;
   }
 
@@ -223,18 +217,17 @@ h3 {
   }
 }
 
-/* Off-Screen Layout (Image on the left, Content on the right) */
 @media (min-width: 768px) {
   .bid-card {
-    flex-direction: row;  /* Horizontal layout */
+    flex-direction: row; 
     justify-content: space-between;
   }
 
   .image-section {
-    order: 0;  /* Ensure image is on the left side */
+    order: 0; 
   }
 
   .details-section {
-    order: 1;  /* Content on the right side */
+    order: 1;  
   }
 }

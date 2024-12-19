@@ -1,38 +1,35 @@
-/* Container styling */
+
 .favorite-container {
-    padding: 30px; /* Increased padding */
+    padding: 30px;
 
     border-radius: 8px;
     text-align: center;
 }
 
-/* Header styling */
 .favorite-container h2 {
-    font-size: 2rem; /* Increased font size */
+    font-size: 2rem; 
     font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 15px; /* Increased gap */
-    margin-bottom: 25px; /* Increased margin */
+    gap: 15px;
+    margin-bottom: 25px; 
 }
 
 .favorite-icon {
-    font-size: 2rem; /* Increased icon size */
+    font-size: 2rem;
 }
 
-/* Grid layout */
 .favorite-grid {
     display: flex;
-    gap: 25px; /* Increased gap between items */
+    gap: 25px; 
     justify-content: center;
     flex-wrap: wrap;
 }
 
-/* Individual favorite item styling */
 .favorite-item {
-    width: 200px; /* Increased width */
-    height: 200px; /* Increased height */
+    width: 200px; 
+    height: 200px;
     text-align: center;
 }
 
@@ -41,12 +38,10 @@
     height: 100%;
     border-radius: 8px;
     object-fit: cover;
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); /* Increased shadow */
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); 
 }
 
-/* Responsive Design */
 
-/* Medium screens (tablets and small desktops) */
 @media (max-width: 768px) {
     .favorite-container {
         padding: 20px;
@@ -54,37 +49,36 @@
     }
 
     .favorite-container h2 {
-        font-size: 1.75rem; /* Adjusted font size */
+        font-size: 1.75rem; 
     }
 
     .favorite-grid {
-        gap: 20px; /* Adjusted gap */
+        gap: 20px;
     }
 
     .favorite-item {
-        width: 160px; /* Adjusted size */
+        width: 160px;
         height: 160px;
     }
 }
 
-/* Small screens (phones) */
 @media (max-width: 480px) {
     .favorite-container {
         padding: 15px;
     }
 
     .favorite-container h2 {
-        font-size: 1.5rem; /* Adjusted font size */
+        font-size: 1.5rem; 
     }
 
     .favorite-grid {
         flex-direction: column;
-        gap: 15px; /* Adjusted gap */
+        gap: 15px; 
         align-items: center;
     }
 
     .favorite-item {
-        width: 140px; /* Adjusted size */
+        width: 140px; 
         height: 140px;
     }
 }

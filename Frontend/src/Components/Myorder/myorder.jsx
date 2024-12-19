@@ -29,9 +29,9 @@ function MyOrder() {
     setOrders((prevOrders) =>
       prevOrders.map((order) =>
         order.id === orderId
-          ? { ...order, status: 'delivered' } // Update to 'delivered'
+          ? { ...order, status: 'delivered' } 
           : order.status === 'delivered' || 
-            order.status === 'completed' ? // Keep previous 'completed' states
+            order.status === 'completed' ? 
               order
             : { ...order, status: 'completed' } 
       )

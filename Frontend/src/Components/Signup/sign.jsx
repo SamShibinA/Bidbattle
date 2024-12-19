@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './sign.css'; // Import your CSS file
+import './sign.css';
 import logo from '../../Components/Assests/loginlogo.png';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
 
 const Signup = () => {
@@ -9,7 +9,7 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const navigate = useNavigate(); // Initialize navigate hook
+  const navigate = useNavigate(); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,17 +25,17 @@ const Signup = () => {
         email,
         password,
       });
-      alert(response.data.message); // Show success message
-      navigate('/Login'); // Redirect to login page
+      alert(response.data.message); 
+      navigate('/Login'); 
     } catch (error) {
       if (error.response) {
-        console.error('Backend Error:', error.response.data); // Log backend response
+        console.error('Backend Error:', error.response.data);
         alert(error.response.data.message || 'Failed to sign up. Please try again.');
       } else if (error.request) {
-        console.error('No response from server:', error.request); // Log network errors
+        console.error('No response from server:', error.request); 
         alert('No response from the server. Please try again.');
       } else {
-        console.error('Error during request setup:', error.message); // Log other errors
+        console.error('Error during request setup:', error.message);
         alert('An unexpected error occurred. Please try again.');
       }
     }
@@ -108,7 +108,7 @@ const Signup = () => {
             <p>Already Have an Account in BidBattle?</p>
             <button
               className="signup-btn"
-              onClick={() => navigate('/Login')} // Navigate to login page
+              onClick={() => navigate('/Login')} 
             >
               Sign in
             </button>

@@ -20,7 +20,6 @@ const Login = () => {
         password, 
       });
 
-      // alert(response.data.message); 
       localStorage.setItem('token', response.data.token); 
       navigate('/Home'); 
     } catch (error) {

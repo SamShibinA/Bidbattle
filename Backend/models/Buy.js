@@ -10,7 +10,7 @@ const BuySchema = new mongoose.Schema(
     type: { type: String, required: true },
     size: { type: String, required: true },
     theme: { type: String, required: true },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Store the userId
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, 
   },
   { timestamps: true, collection: 'buy' }
 );

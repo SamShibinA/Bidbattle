@@ -6,14 +6,14 @@ const { authenticateToken } = require('../middlewares/auth');
 
 const router = express.Router();
 
-// Configure multer for file uploads
+
 const storage = multer.diskStorage({
-  destination: path.join(__dirname, '../uploads'), // Save files in "backend/uploads"
+  destination: path.join(__dirname, '../uploads'), 
   filename: (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`),
 });
 const upload = multer({ storage });
 
-// Get profile
+
 router.get('/', authenticateToken, async (req, res) => {
   try {
     const profile = await Profile.findOne({ userId: req.user.userId });
@@ -26,7 +26,7 @@ router.get('/', authenticateToken, async (req, res) => {
         : null,
     };
 
-    console.log('Profile fetched:', profileWithImageURL); // Debug
+    console.log('Profile fetched:', profileWithImageURL); 
     res.status(200).json(profileWithImageURL);
   } catch (err) {
     console.error('Error fetching profile:', err);
@@ -34,7 +34,6 @@ router.get('/', authenticateToken, async (req, res) => {
   }
 });
 
-// Update profile
 router.put('/', authenticateToken, upload.single('profilePicture'), async (req, res) => {
   try {
     const { name, phone, city, state, pincode, country } = req.body;
@@ -56,7 +55,7 @@ router.put('/', authenticateToken, upload.single('profilePicture'), async (req, 
       { new: true, upsert: true }
     );
 
-    console.log('Updated profile:', updatedProfile); // Debug
+    console.log('Updated profile:', updatedProfile); 
     res.status(200).json({
       message: 'Profile updated successfully',
       updatedProfile: {
