@@ -12,7 +12,7 @@ const AuctionSchema = new mongoose.Schema(
     size: { type: String, required: true },
     theme: { type: String, required: true },
     imageUrl: { type: String, required: true },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Added userId
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, 
   },
   { timestamps: true, collection: 'auctions' }
 );

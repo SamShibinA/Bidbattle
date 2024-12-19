@@ -11,55 +11,55 @@
 .buycard-image {
   display: flex;
   justify-content: center;
-  margin-right: 20px; /* Add space between the image and content */
+  margin-right: 20px; 
 }
 
 .buycard-image img {
-  width: 300px; /* Fixed width */
-  height: 400px; /* Fixed height */
+  width: 300px; 
+  height: 400px;
   object-fit: cover;
   border-radius: 8px;
 }
 
 .buycard-details {
   max-width: 400px;
-  padding: 15px; /* Reduced padding around text */
+  padding: 15px; 
   display: flex;
   flex-direction: column;
-  gap: 15px; /* Reduced space between the elements inside the content */
+  gap: 15px; 
   background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow for better visual separation */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
 .buycard-details h1 {
   font-size: 1.8rem;
   font-weight: bold;
-  margin-bottom: 8px; /* Reduced margin */
+  margin-bottom: 8px;
   color: #333;
 }
 
 .buycard-details h2 {
-  font-size: 1.4rem; /* Reduced font size slightly */
+  font-size: 1.4rem; 
   color: #333;
-  margin-bottom: 15px; /* Reduced margin */
+  margin-bottom: 15px; 
 }
 
 .buycard-details p {
   color: #555;
-  margin-bottom: 8px; /* Reduced space between paragraphs */
+  margin-bottom: 8px; 
 }
 
 .buycard-actions {
   display: flex;
   justify-content: center;
-  margin-top: 15px; /* Reduced margin */
+  margin-top: 15px; 
 
 }
 
 .btn-favourite, .btn-buy {
-  padding: 8px 18px; /* Reduced padding */
-  font-size: 0.95rem; /* Reduced font size slightly */
+  padding: 8px 18px; 
+  font-size: 0.95rem;
   border: none;
   cursor: pointer;
   border-radius: 5px;
@@ -98,9 +98,9 @@
 
   .buycard-details {
     max-width: 100%;
-    padding: 12px; /* Adjusted padding for smaller screens */
+    padding: 12px; 
     margin-top: 15px;
-    gap: 12px; /* Reduced gap */
+    gap: 12px; 
   }
 
   .buycard-details h1 {
@@ -153,7 +153,6 @@
   }
 }
 
-/* Full Screen Mode */
 :fullscreen .buycard-container {
   display: flex;
   justify-content: center;
@@ -162,8 +161,8 @@
 }
 
 :fullscreen .buycard-image img {
-  width: 80%;  /* Increase width */
-  height: auto; /* Adjust height proportionally */
+  width: 80%; 
+  height: auto; 
   object-fit: cover;
 }
 
@@ -180,19 +179,18 @@
   margin-top: 20px;
 }
 
-/* Off-Screen Layout (Image on the left, Content on the right) */
 @media (min-width: 768px) {
   .buycard-container {
-    flex-direction: row;  /* Horizontal layout */
-    justify-content: space-between; /* Align image and content side by side */
-    gap: 15px; /* Reduced gap between image and content */
+    flex-direction: row; 
+    justify-content: space-between; 
+    gap: 15px; 
   }
 
   .buycard-image {
-    order: 0;  /* Ensure image is on the left side */
+    order: 0;  
   }
 
   .buycard-details {
-    order: 1;  /* Content on the right side */
+    order: 1;  
   }
 }

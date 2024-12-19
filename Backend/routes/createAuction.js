@@ -3,9 +3,8 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const Auction = require('../models/Auction');
-const { authenticateToken } = require('../middlewares/auth'); // Import authenticateToken
+const { authenticateToken } = require('../middlewares/auth'); 
 
-// Setup multer for image upload
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads/');
@@ -17,7 +16,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Route to create a new auction
 router.post('/create', authenticateToken, upload.single('image'), async (req, res) => {
   try {
     const {
@@ -32,7 +30,6 @@ router.post('/create', authenticateToken, upload.single('image'), async (req, re
       theme,
     } = req.body;
 
-    // Validate required fields
     if (!startDateTime || !endDateTime) {
       return res.status(400).json({ message: 'startDateTime and endDateTime are required' });
     }
@@ -44,10 +41,8 @@ router.post('/create', authenticateToken, upload.single('image'), async (req, re
       return res.status(400).json({ message: 'Invalid date format' });
     }
 
-    // Get the image URL from the uploaded file
     const imageUrl = req.file ? req.file.path : '';
 
-    // Create a new auction document
     const auction = new Auction({
       productName,
       description,
@@ -59,10 +54,10 @@ router.post('/create', authenticateToken, upload.single('image'), async (req, re
       size,
       theme,
       imageUrl,
-      userId: req.user.userId, // Store the userId from the JWT
+      userId: req.user.userId,
     });
 
-    // Save the auction to the database
+  
     await auction.save();
 
     res.status(201).json({
@@ -75,11 +70,11 @@ router.post('/create', authenticateToken, upload.single('image'), async (req, re
   }
 });
 
-// Fetch all auction items
+
 router.get('/', async (req, res) => {
   try {
-    const auctions = await Auction.find().sort({ endDateTime: 1 }); // Sort by end date
-    res.status(200).json({ auctions }); // Return auctions as a list
+    const auctions = await Auction.find().sort({ endDateTime: 1 }); 
+    res.status(200).json({ auctions }); 
   } catch (error) {
     console.error('Error fetching auctions:', error);
     res.status(500).json({ message: 'Failed to fetch auctions' });

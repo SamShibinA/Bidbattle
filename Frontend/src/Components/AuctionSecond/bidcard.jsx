@@ -1,19 +1,19 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom"; // Import useLocation
-import "./bidcard.css"; // Ensure you have the styles
+import { useLocation } from "react-router-dom"; 
+import "./bidcard.css";
 
 const BidCardAuction = () => {
   const location = useLocation();
   const {
     imageUrl,
-    text = "Ends in", // Provide a default value
+    text = "Ends in",
     title,
     theme,
     size,
     type,
     description,
     time,
-  } = location.state || {}; // Destructure data passed via state
+  } = location.state || {}; 
 
   const [bid, setBid] = useState("");
   const [highestBid, setHighestBid] = useState(90.0);
@@ -22,7 +22,7 @@ const BidCardAuction = () => {
   const handleBidSubmit = () => {
     if (parseFloat(bid) > highestBid) {
       setHighestBid(parseFloat(bid));
-      setBidder("You"); // Update the bidder name
+      setBidder("You");
     } else {
       alert("Your bid must be higher than the current highest bid.");
     }
@@ -34,8 +34,8 @@ const BidCardAuction = () => {
       <div className="bid-card">
         <div className="image-section">
           <img
-            src={`http://localhost:5000/${imageUrl}`} // Ensure the URL is correctly prefixed
-            alt={title || "Artwork"} // Provide a fallback alt text
+            src={`http://localhost:5000/${imageUrl}`} 
+            alt={title || "Artwork"} 
             className="bid-image"
           />
         </div>
@@ -60,7 +60,7 @@ const BidCardAuction = () => {
             <span
               className="ends-in"
               style={{
-                color: text === "Ends in" ? "red" : "green", // Dynamically set color
+                color: text === "Ends in" ? "red" : "green",
               }}
             >
               {text}

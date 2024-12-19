@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import "./auction.css";
 
 const Auction = () => {
-  const [items, setItems] = useState([]); // State to store auction items
-  const [timeRemaining, setTimeRemaining] = useState({}); // State to track countdown timers
+  const [items, setItems] = useState([]); 
+  const [timeRemaining, setTimeRemaining] = useState({}); 
 
-  // Function to calculate the remaining time for each item
+
   const calculateTimeRemaining = (endTime) => {
     const endDate = new Date(endTime);
     const currentDate = new Date();
@@ -24,16 +24,16 @@ const Auction = () => {
     return `${days}d:${hours}h:${minutes}m:${seconds}s`;
   };
 
-  // Fetch auction items from the backend
+ 
   useEffect(() => {
     const fetchAuctionItems = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/auction"); // Adjust API route if needed
+        const response = await fetch("http://localhost:5000/api/auction"); 
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        setItems(data.auctions); // Set fetched auction items
+        setItems(data.auctions); 
       } catch (error) {
         console.error("Failed to fetch auction items:", error);
       }
@@ -43,19 +43,19 @@ const Auction = () => {
   }, []);
 
   useEffect(() => {
-    // Set up the countdown interval for each item
+   
     const interval = setInterval(() => {
       const updatedTimeRemaining = items.reduce((acc, item) => {
         acc[item._id] = calculateTimeRemaining(item.endDateTime);
         return acc;
       }, {});
       setTimeRemaining(updatedTimeRemaining);
-    }, 1000); // Update every second
+    }, 1000); 
 
     return () => clearInterval(interval);
   }, [items]);
 
-  // Filter out expired items
+  
   const activeItems = items.filter((item) => calculateTimeRemaining(item.endDateTime) !== "Expired");
 
   return (

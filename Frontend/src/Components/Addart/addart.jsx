@@ -34,13 +34,13 @@ function Addart() {
     data.append('theme', formData.theme);
     data.append('image', image);
 
-    const token = localStorage.getItem('token'); // Get the JWT token from localStorage
+    const token = localStorage.getItem('token'); 
 
     try {
       const response = await axios.post('http://localhost:5000/api/art/add', data, {
         headers: { 
           'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${token}`, // Send the token for authentication
+          'Authorization': `Bearer ${token}`,
         },
       });
       alert('Art added successfully!');

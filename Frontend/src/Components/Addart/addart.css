@@ -1,5 +1,5 @@
 .addart {
- /* Full viewport height */
+
   width: 100%;
   padding-top: 3%;
   padding-bottom:8% ;
@@ -95,7 +95,7 @@ hr{
   background-color: #0c7a45;
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
   .auction-container {
       padding: 15px;

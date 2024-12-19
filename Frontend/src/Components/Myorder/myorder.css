@@ -5,7 +5,7 @@
     height: 100%;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    flex-wrap: wrap; 
   }
   
   h2 {
@@ -22,10 +22,10 @@
     margin: 20px;
     border-radius: 5px;
     width: 70%;
-    height: auto; /* Allow height to be flexible */
+    height: auto;
     margin-right: 50px;
     display: flex;
-    flex-wrap: wrap; /* Make content wrap on smaller screens */
+    flex-wrap: wrap; 
     box-sizing: border-box;
   }
   
@@ -89,17 +89,13 @@
   .equal {
     color: green;
   }
-  
-  /* Responsive Styles */
-  
-  /* For large tablets and small desktops */
+
   @media (max-width: 1200px) {
     .order-card {
-      width: 85%; /* Reduce width for smaller screens */
+      width: 85%; 
     }
   }
   
-  /* For tablets and medium screens */
   @media (max-width: 992px) {
     .order-card {
       width: 95%;
@@ -120,19 +116,18 @@
       display: block;
     }
   }
-  
-  /* For mobile devices */
+
   @media (max-width: 768px) {
     .order-card {
-      flex-direction: column; /* Stack items vertically */
+      flex-direction: column;
       align-items: center;
-      width: 90%; /* Full width on smaller screens */
+      width: 90%; 
       height: auto;
-      margin-right: 0; /* Remove side margin */
+      margin-right: 0; 
     }
   
     .order-image img {
-      width: 120px; /* Adjust image size */
+      width: 120px; 
       height: 120px;
       margin-right: 0;
       margin-bottom: 10px;
@@ -142,7 +137,7 @@
     .order-progress {
       text-align: center;
       margin: 10px 0;
-      width: 100%; /* Full width for details and progress */
+      width: 100%; 
     }
   
     .order-progress {
@@ -156,26 +151,25 @@
     }
   
     .delivered-button {
-      width: 100%; /* Full width for the button */
+      width: 100%; 
       padding: 8px 15px;
       font-size: 14px;
     }
   }
   
-  /* Enhanced Styles for smaller mobile devices */
   @media (max-width: 576px) {
     h2 {
       font-size: 1.2em;
       margin-left: 10px;
-      text-align: center; /* Center heading on small screens */
+      text-align: center; 
     }
   
     .order-card {
-      flex-direction: column; /* Stack items vertically */
+      flex-direction: column; 
       padding: 15px;
       margin: 10px 0;
       width: 95%;
-      text-align: center; /* Center align for consistency */
+      text-align: center; 
       align-items: center;
     }
   
@@ -193,7 +187,7 @@
     .order-details,
     .order-progress {
       text-align: center;
-      width: 100%; /* Full width for details and progress */
+      width: 100%; 
       margin: 8px 0;
     }
   
@@ -216,7 +210,6 @@
     }
   }
   
-  /* For extra-small mobile devices */
   @media (max-width: 400px) {
     h2 {
       font-size: 1em;

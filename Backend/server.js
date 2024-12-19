@@ -5,25 +5,23 @@ const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const path = require('path');
 
-// Routes
+
 const authRoutes = require('./routes/auth');
 const profileRoutes = require('./routes/profile');
 const addArtRoute = require('./routes/addArt');
-const auctionRoutes = require('./routes/createAuction'); // Import auction route
-const favoriteRoutes = require('./routes/favorite'); // Add this line
+const auctionRoutes = require('./routes/createAuction'); 
+const favoriteRoutes = require('./routes/favorite'); 
 
 
-dotenv.config(); // Load environment variables
+dotenv.config(); 
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Serve uploaded files
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); 
 
-// MongoDB Connection
 mongoose
 .connect(process.env.MONGO_URI || 'mongodb://localhost:27017/bidbattle')
 .then(() => console.log('Connected to MongoDB'))
@@ -32,14 +30,14 @@ mongoose
   process.exit(1);
 });
 
-// Routes
-app.use('/api', authRoutes); // Auth routes
-app.use('/api/profile', profileRoutes); // Profile routes
-app.use('/api/art', addArtRoute); // Add Art routes
-app.use('/api/auction', auctionRoutes); // Add auction route
-app.use('/api/favorite', favoriteRoutes); // Add this line
 
-// Start Server
+app.use('/api', authRoutes); 
+app.use('/api/profile', profileRoutes); 
+app.use('/api/art', addArtRoute); 
+app.use('/api/auction', auctionRoutes); 
+app.use('/api/favorite', favoriteRoutes); 
+
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

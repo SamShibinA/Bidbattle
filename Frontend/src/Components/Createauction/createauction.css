@@ -9,7 +9,7 @@ hr {
 
 .auction-container {
   max-width: 570px;
-  margin: 0  auto; /* Align container to the right */
+  margin: 0  auto; 
   background-color: #dcdcdc;
   padding: 20px;
   border-radius: 8px;
@@ -90,10 +90,9 @@ hr {
   background-color: #555;
 }
 
-/* Media query for tablet devices */
 @media (max-width: 768px) {
   .auction-container {
-    width: 80%; /* Slightly smaller width for tablets */
+    width: 80%; 
     padding: 15px;
   }
 
@@ -121,10 +120,9 @@ hr {
   }
 }
 
-/* Media query for mobile devices */
 @media (max-width: 480px) {
   .auction-container {
-    width: 100%; /* Full width for mobile */
+    width: 100%; 
     padding: 10px;
   }
 

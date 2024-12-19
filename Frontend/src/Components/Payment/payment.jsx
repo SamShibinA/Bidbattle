@@ -4,17 +4,15 @@ import "./payment.css";
 
 const Payment = () => {
   const location = useLocation();
-  const item = location.state; // Access the passed state (item data)
+  const item = location.state; 
 
-  // Check if item is undefined (fallback if navigated without data)
   if (!item) {
     return <h2 className="error-message">No item details available. Please try again.</h2>;
   }
 
-  // Safely parse prices and set defaults
-  const escrowFees = 20; // Fixed escrow fees
-  const itemsTotal = parseFloat(item.price || 0); // Default to 0 if price is missing
-  const shippingFees = parseFloat(item.shippingprice || 0); // Default to 0 if shipping price is missing
+  const escrowFees = 20; 
+  const itemsTotal = parseFloat(item.price || 0); 
+  const shippingFees = parseFloat(item.shippingprice || 0);
   const totalAmount = itemsTotal + shippingFees + escrowFees;
 
   return (

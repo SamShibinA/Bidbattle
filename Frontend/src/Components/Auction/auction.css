@@ -44,7 +44,6 @@
     margin-top: 5px;
   }
   
-  /* Medium screens (tablets, 768px and above) */
   @media (min-width: 768px) {
     .container {
       gap: 30px;
@@ -61,7 +60,6 @@
     }
   }
   
-  /* Large screens (desktops, 1024px and above) */
   @media (min-width: 1024px) {
     .container {
       gap: 40px;
@@ -78,7 +76,6 @@
     }
   }
   
-  /* Small screens (mobile devices, 480px and below) */
   @media (max-width: 480px) {
     .container {
       flex-direction: column;
@@ -90,6 +87,6 @@
       max-width: 300px;
     }
     .text, .time {
-      font-size: 16px; /* Larger font for better readability on small screens */
+      font-size: 16px;
     }
   }

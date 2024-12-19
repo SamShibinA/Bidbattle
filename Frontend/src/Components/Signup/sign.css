@@ -13,7 +13,7 @@
 
 .sign-container {
   display: flex;
-  width: 850px; /* Increased width */
+  width: 850px; 
   height:600px;
   border-radius: 10px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);

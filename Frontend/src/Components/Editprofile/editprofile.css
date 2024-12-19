@@ -46,7 +46,7 @@ hr {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  padding-right: 40px; /* Add space for the icon */
+  padding-right: 40px; 
 }
 
 .file-input-wrapper .upload-icon {
@@ -67,23 +67,21 @@ hr {
   width: 100%;
 }
 
-/* Media query for tablet devices */
 @media (max-width: 768px) {
   .edit-profile-container {
-    width: 80%; /* Slightly smaller width for tablets */
+    width: 80%; 
     padding: 15px;
   }
 }
 
-/* Media query for mobile devices */
 @media (max-width: 480px) {
   .edit-profile-container {
-    width: 120%; /* Full width for mobile */
+    width: 120%;
     padding: 10px;
   }
 
   .save-button {
-    padding: 8px 16px; /* Adjust button padding for mobile */
+    padding: 8px 16px; 
   }
 }
 

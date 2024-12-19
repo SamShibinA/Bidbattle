@@ -11,28 +11,23 @@ function Buy() {
   const [sortOption, setSortOption] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Fetch artworks and favorites on component mount
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch artworks
         const artResponse = await fetch("http://localhost:5000/api/art/all");
         const artData = await artResponse.json();
         setArtworks(artData);
 
-        // Fetch favorite items
         const favoriteResponse = await fetch(
           "http://localhost:5000/api/favorite/all"
         );
         const favoriteData = await favoriteResponse.json();
 
-        // Prepopulate likedItems state from backend and localStorage
         const likedMap = {};
         favoriteData.forEach((fav) => {
           likedMap[fav.productId] = true;
         });
 
-        // Optionally use localStorage as fallback or supplement for liked items
         const localLikedItems = JSON.parse(localStorage.getItem('likedItems')) || {};
         setLikedItems({ ...likedMap, ...localLikedItems });
       } catch (error) {
@@ -43,12 +38,10 @@ function Buy() {
     fetchData();
   }, []);
 
-  // Toggle like/unlike functionality
   const toggleLike = async (item) => {
     const isLiked = likedItems[item._id];
 
     if (isLiked) {
-      // Unlike: Remove from favorites
       try {
         await fetch(`http://localhost:5000/api/favorite/remove/${item._id}`, {
           method: "DELETE",
@@ -58,7 +51,6 @@ function Buy() {
         console.error("Error removing favorite:", error);
       }
     } else {
-      // Like: Add to favorites
       try {
         await fetch("http://localhost:5000/api/favorite/add", {
           method: "POST",
@@ -79,7 +71,6 @@ function Buy() {
       }
     }
 
-    // Update the likedItems state and persist to localStorage
     const updatedLikedItems = {
       ...likedItems,
       [item._id]: !isLiked,
@@ -89,12 +80,10 @@ function Buy() {
     localStorage.setItem('likedItems', JSON.stringify(updatedLikedItems));
   };
 
-  // Handle card click to navigate
   const handleCardClick = (item) => {
     navigate("/buycard", { state: item });
   };
 
-  // Filter and sort artworks
   const filteredAndSortedItems = artworks
     .filter((item) =>
       sizeFilter ? item.size.includes(sizeFilter) : true
@@ -119,7 +108,6 @@ function Buy() {
 
   return (
     <div className="app-container">
-      {/* Search and filter controls */}
       <div className="search-filter-container">
         <div className="search-bar-container">
           <input
@@ -160,7 +148,6 @@ function Buy() {
         </select>
       </div>
 
-      {/* Cards */}
       <div className="card-container">
         {filteredAndSortedItems.length === 0 ? (
           <div className="no-result">No Results Found</div>

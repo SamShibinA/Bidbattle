@@ -1,13 +1,12 @@
-/* Default sidebar styles for larger screens */
-/* Sidebar styling */
+
 .sidebar {
   position: fixed;
   padding: 15px;
   top: 10%;
-  left: 0%; /* Aligns the sidebar to the left side */
-  width: 180px; /* Adjust width as needed */
-  height: 90%; /* Adjust height as needed */
-  background-color: #f8f9fa; /* Example background color */
+  left: 0%;
+  width: 180px;
+  height: 90%;
+  background-color: #f8f9fa;
   box-shadow: 4px 0 16px rgba(0, 0, 0, 0.2);
   z-index: 1000;
   transition: transform 0.3s ease;
@@ -37,29 +36,27 @@
   color: #333;
 }
 
-/* Media query for tablet devices */
 @media (max-width: 768px) {
   .sidebar {
-    width: 160px; /* Reduce width on smaller screens */
+    width: 160px; 
     padding: 15px;
-    box-shadow: 2px 0px 6px rgba(0, 0, 0, 0.1); /* Adjust shadow for smaller sidebar */
+    box-shadow: 2px 0px 6px rgba(0, 0, 0, 0.1); 
   }
 
   .sidebar-option span {
-    font-size: 12px; /* Reduce font size for sidebar options */
+    font-size: 12px; 
   }
 
   .sidebar-option svg {
-    font-size: 16px; /* Adjust icon size */
+    font-size: 16px; 
   }
 }
 
-/* Media query for mobile devices */
 @media (max-width: 480px) {
   .sidebar {
-    width: 100px; /* Narrow sidebar on mobile */
+    width: 100px;
     padding: 10px;
-    box-shadow: 1px 0px 4px rgba(0, 0, 0, 0.1); /* Adjust shadow for narrower sidebar */
+    box-shadow: 1px 0px 4px rgba(0, 0, 0, 0.1);
   }
 
   .sidebar-option {
@@ -67,10 +64,10 @@
   }
 
   .sidebar-option span {
-    display: none; /* Hide text labels for icons on very small screens */
+    display: none;
   }
 
   .sidebar-option svg {
-    font-size: 20px; /* Slightly increase icon size for better touch targets */
+    font-size: 20px; 
   }
 }

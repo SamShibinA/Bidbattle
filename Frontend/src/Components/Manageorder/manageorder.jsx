@@ -1,6 +1,6 @@
 import React from 'react';
 import './mangerorder.css'
-import p1 from '../Assests/Pic1.webp' // Replace with your actual image path
+import p1 from '../Assests/Pic1.webp'
 
 const ManageOrder = () => {
   return (

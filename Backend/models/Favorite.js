@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const favoriteSchema = new mongoose.Schema({
-  productId: { type: mongoose.Schema.Types.ObjectId, ref: "Buy", required: true }, // Reference to Buy table ID
+  productId: { type: mongoose.Schema.Types.ObjectId, ref: "Buy", required: true }, 
   productName: { type: String, required: true },
   imageUrl: { type: String, required: true },
   description: { type: String, required: true },
@@ -10,7 +10,7 @@ const favoriteSchema = new mongoose.Schema({
   type: { type: String, required: true },
   size: { type: String, required: true },
   theme: { type: String, required: true },
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // Associate with User
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, 
   createdAt: { type: Date, default: Date.now },
 });
 

@@ -14,11 +14,11 @@ function EditProfile() {
     country: '',
   });
   const [profilePicture, setProfilePicture] = useState(null);
-  const [errors, setErrors] = useState({}); // To store validation errors
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     const fetchProfileData = async () => {
-      const token = localStorage.getItem('token'); // JWT stored in localStorage
+      const token = localStorage.getItem('token'); 
       try {
         const response = await axios.get('http://localhost:5000/api/profile', {
           headers: {
@@ -33,10 +33,10 @@ function EditProfile() {
           pincode: response.data.pincode || '',
           country: response.data.country || '',
         });
-        setProfilePicture(response.data.profilePicture || null); // Set profile picture URL if available
+        setProfilePicture(response.data.profilePicture || null); 
       } catch (error) {
         console.error('Error fetching profile data:', error.response?.data || error.message);
-        // alert('Failed to fetch profile data');
+      
       }
     };
 
@@ -65,7 +65,6 @@ function EditProfile() {
 
     setErrors(newErrors);
 
-    // Return true if no errors
     return Object.keys(newErrors).length === 0;
   };
 
@@ -73,11 +72,11 @@ function EditProfile() {
     e.preventDefault();
 
     if (!validateFields()) {
-      // Stop form submission if validation fails
+
       return;
     }
 
-    const token = localStorage.getItem('token'); // JWT stored in localStorage
+    const token = localStorage.getItem('token'); 
 
     const form = new FormData();
     Object.keys(formData).forEach((key) => form.append(key, formData[key]));

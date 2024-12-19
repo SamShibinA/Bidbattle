@@ -2,32 +2,30 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const Buy = require('../models/Buy');
-const { authenticateToken } = require('../middlewares/auth'); // Import authentication middleware
+const { authenticateToken } = require('../middlewares/auth'); 
 
 const router = express.Router();
 
-// Configure Multer for file uploads
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Folder to store uploaded files
+    cb(null, 'uploads/'); 
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Rename file
+    cb(null, Date.now() + path.extname(file.originalname)); 
   },
 });
 const upload = multer({ storage });
 
-// Route to handle "Add Art"
+
 router.post('/add', authenticateToken, upload.single('image'), async (req, res) => {
   try {
-    // Extract userId from the authenticated user (from the token)
-    const userId = req.user.userId; // This is set by the authenticateToken middleware
+    
+    const userId = req.user.userId; 
 
-    // Destructure the form data
     const { productName, description, price, shippingFee, type, size, theme } = req.body;
-    const imageUrl = req.file ? req.file.path : null; // Path to the uploaded image file
+    const imageUrl = req.file ? req.file.path : null;
 
-    // Create a new artwork entry in the database
     const newArt = new Buy({
       productName,
       imageUrl,
@@ -37,10 +35,9 @@ router.post('/add', authenticateToken, upload.single('image'), async (req, res) 
       type,
       size,
       theme,
-      userId, // Associate the artwork with the authenticated user
+      userId, 
     });
 
-    // Save the artwork to the database
     await newArt.save();
     res.status(201).json({ message: 'Art added successfully!', art: newArt });
   } catch (err) {
@@ -49,10 +46,9 @@ router.post('/add', authenticateToken, upload.single('image'), async (req, res) 
   }
 });
 
-// Route to fetch all artworks from the database
 router.get('/all', async (req, res) => {
   try {
-    const allArtworks = await Buy.find(); // Fetch all items from the Buy collection
+    const allArtworks = await Buy.find(); 
     res.status(200).json(allArtworks);
   } catch (err) {
     console.error('Error fetching artworks:', err);

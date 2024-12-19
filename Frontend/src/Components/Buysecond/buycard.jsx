@@ -3,28 +3,26 @@ import { Link, useLocation } from "react-router-dom";
 import "./buycard.css";
 
 const BuyCard = () => {
-  const location = useLocation(); // Access the passed state
-  const item = location.state; // Get the item data
+  const location = useLocation(); 
+  const item = location.state;
 
-  // Check if item is undefined (fallback if navigated without data)
   if (!item) {
     return <h2 className="error-message">No item details available. Please select an item.</h2>;
   }
 
-  // Add a mock shipping price to item if it's not already included
-  const itemWithShipping = { ...item, shippingprice: item.shippingprice || "15" }; // Default shipping price $15
+  const itemWithShipping = { ...item, shippingprice: item.shippingprice || "15" };
 
   return (
     <div className="buycard-container">
       <div className="bid-card">
         <div className="buycard-image">
-          {/* Updated image source */}
+         
           <img
             src={`http://localhost:5000/${item.imageUrl}`}
             alt={item.productName}
           />
         </div>
-        <div className="vertical-line"></div> {/* Vertical Line */}
+        <div className="vertical-line"></div> 
         <div className="buycard-details">
           <h1>{item.productName}</h1>
           <h2>${item.price}</h2>
