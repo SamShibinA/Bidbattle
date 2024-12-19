@@ -26,12 +26,15 @@ function Buy() {
         );
         const favoriteData = await favoriteResponse.json();
 
-        // Prepopulate likedItems state
+        // Prepopulate likedItems state from backend and localStorage
         const likedMap = {};
         favoriteData.forEach((fav) => {
           likedMap[fav.productId] = true;
         });
-        setLikedItems(likedMap);
+
+        // Optionally use localStorage as fallback or supplement for liked items
+        const localLikedItems = JSON.parse(localStorage.getItem('likedItems')) || {};
+        setLikedItems({ ...likedMap, ...localLikedItems });
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -76,11 +79,14 @@ function Buy() {
       }
     }
 
-    // Update the likedItems state
-    setLikedItems((prevLikedItems) => ({
-      ...prevLikedItems,
+    // Update the likedItems state and persist to localStorage
+    const updatedLikedItems = {
+      ...likedItems,
       [item._id]: !isLiked,
-    }));
+    };
+
+    setLikedItems(updatedLikedItems);
+    localStorage.setItem('likedItems', JSON.stringify(updatedLikedItems));
   };
 
   // Handle card click to navigate

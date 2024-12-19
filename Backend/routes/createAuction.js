@@ -75,4 +75,16 @@ router.post('/create', authenticateToken, upload.single('image'), async (req, re
   }
 });
 
+// Fetch all auction items
+router.get('/', async (req, res) => {
+  try {
+    const auctions = await Auction.find().sort({ endDateTime: 1 }); // Sort by end date
+    res.status(200).json({ auctions }); // Return auctions as a list
+  } catch (error) {
+    console.error('Error fetching auctions:', error);
+    res.status(500).json({ message: 'Failed to fetch auctions' });
+  }
+});
+
+
 module.exports = router;
