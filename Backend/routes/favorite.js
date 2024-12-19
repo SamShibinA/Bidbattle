@@ -6,7 +6,7 @@ const Buy = require("../models/Buy"); // Import the Buy model
 // Route to get all favorites
 router.get("/all", async (req, res) => {
   try {
-    const favorites = await Favorite.find();
+    const favorites = await Favorite.find().populate("productId"); // Populate to get full product details
     res.json(favorites);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -15,7 +15,7 @@ router.get("/all", async (req, res) => {
 
 // Route to add a favorite (fetch full details from Buy table)
 router.post("/add", async (req, res) => {
-  const { productId } = req.body;
+  const { productId, userId } = req.body;
 
   try {
     // Fetch the product details from the Buy table
@@ -43,6 +43,7 @@ router.post("/add", async (req, res) => {
       type: product.type,
       size: product.size,
       theme: product.theme,
+      userId: userId || product.userId, // Assign the userId from the body or from product
     });
 
     // Save the favorite item to the database
