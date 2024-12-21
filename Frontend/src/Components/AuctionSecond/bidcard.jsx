@@ -24,6 +24,8 @@ const BidCardAuction = () => {
   const [highestBid, setHighestBid] = useState(startingBid);
   const [bidder, setBidder] = useState("Not yet bidded");
   const [timeRemaining, setTimeRemaining] = useState("");
+  const [user, setUser] = useState(null); // Store the logged-in user
+  const [statusMessage, setStatusMessage] = useState(""); // Store status messages
 
   const calculateTimeRemaining = (endTime) => {
     const endDate = new Date(endTime);
@@ -54,7 +56,21 @@ const BidCardAuction = () => {
   }, [endDateTime]);
 
   useEffect(() => {
-    // Fetch the highest bid and bidder info when the component mounts
+    // Fetch the logged-in user details (username) and the highest bid info
+    const fetchUser = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const response = await axios.get("http://localhost:5000/api/profile", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          setUser(response.data);
+        } catch (error) {
+          console.error("Error fetching user details:", error);
+        }
+      }
+    };
+
     const fetchBids = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/api/bid/${auctionId}`);
@@ -69,6 +85,7 @@ const BidCardAuction = () => {
       }
     };
 
+    fetchUser();
     fetchBids();
   }, [auctionId]);
 
@@ -84,16 +101,16 @@ const BidCardAuction = () => {
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
-        alert(response.data.message);
+        setStatusMessage("Your bid has been placed successfully!"); // Show success message
         setBid(""); // Reset bid input field
         setHighestBid(bidValue); // Update highest bid
-        setBidder("You"); // Update bidder to "You"
+        setBidder(user?.name || "You"); // Set "You" for the logged-in user
       } catch (error) {
         console.error("Error adding bid:", error);
-        alert("Failed to place bid. Please try again.");
+        setStatusMessage("Failed to place bid. Please try again.");
       }
     } else {
-      alert("Your bid must be higher than the current highest bid.");
+      setStatusMessage("Your bid must be higher than the current highest bid.");
     }
   };
 
@@ -105,7 +122,7 @@ const BidCardAuction = () => {
         </div>
         <div className="details-section">
           <h2>The Highest Bid</h2>
-          <p><strong>Bidder:</strong> {bidder}</p>
+          <p><strong>Bidder:</strong> {bidder === user?.name ? "You" : bidder}</p> {/* Display "You" if the current user is the highest bidder */}
           <p><strong>Bid Amount:</strong> ${highestBid.toFixed(2)}</p>
           <div className="bid-input">
             <input
@@ -116,6 +133,7 @@ const BidCardAuction = () => {
             />
             <button onClick={handleBidSubmit}>BID</button>
           </div>
+          {statusMessage && <p className="status-message">{statusMessage}</p>} {/* Display status message */}
           <div className="timer">
             <span className="ends-in" style={{ color: text === "Ends in" ? "red" : "green" }}>
               {text}
