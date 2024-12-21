@@ -11,6 +11,7 @@ const profileRoutes = require('./routes/profile');
 const addArtRoute = require('./routes/addArt');
 const auctionRoutes = require('./routes/createAuction'); 
 const favoriteRoutes = require('./routes/favorite'); 
+const bidRoutes = require('./routes/bid'); // Import the bid routes
 
 
 dotenv.config(); 
@@ -36,6 +37,7 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/art', addArtRoute); 
 app.use('/api/auction', auctionRoutes); 
 app.use('/api/favorite', favoriteRoutes); 
+app.use('/api/bid', bidRoutes); // Use the bid routes
 
 
 app.listen(PORT, () => {
