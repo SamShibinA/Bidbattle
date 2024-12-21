@@ -71,6 +71,9 @@ const Auction = () => {
             <div className="text" style={{ color: "#C53742" }}>
               {item.productName}
             </div>
+            <div className="ends-in" style={{ color: "red", fontWeight: "bold" }}>
+              Ends in:
+            </div>
             <div className="time">
               {timeRemaining[item._id] || "Loading..."}
             </div>

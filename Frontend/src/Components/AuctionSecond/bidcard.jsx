@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useLocation } from "react-router-dom"; 
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import "./bidcard.css";
 
 const BidCardAuction = () => {
@@ -13,15 +13,48 @@ const BidCardAuction = () => {
     type,
     description,
     time,
-  } = location.state || {}; 
+    startingBid = 0, // Default to 0 if not provided
+    endDateTime,
+    productName,
+  } = location.state || {};
 
   const [bid, setBid] = useState("");
-  const [highestBid, setHighestBid] = useState(90.0);
-  const [bidder, setBidder] = useState("Mr.Anand");
+  const [highestBid, setHighestBid] = useState(startingBid);
+  const [bidder, setBidder] = useState("Not yet bidded");
+  const [timeRemaining, setTimeRemaining] = useState("");
+
+  const calculateTimeRemaining = (endTime) => {
+    const endDate = new Date(endTime);
+    const currentDate = new Date();
+    const remainingTime = endDate - currentDate;
+
+    if (remainingTime <= 0) {
+      return "Expired";
+    }
+
+    const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+    return `${days}d:${hours}h:${minutes}m:${seconds}s`;
+  };
+
+  useEffect(() => {
+    const updateTimer = () => {
+      setTimeRemaining(calculateTimeRemaining(endDateTime));
+    };
+
+    updateTimer();
+    const interval = setInterval(updateTimer, 1000);
+
+    return () => clearInterval(interval);
+  }, [endDateTime]);
 
   const handleBidSubmit = () => {
-    if (parseFloat(bid) > highestBid) {
-      setHighestBid(parseFloat(bid));
+    const bidValue = parseFloat(bid);
+    if (bidValue > highestBid) {
+      setHighestBid(bidValue);
       setBidder("You");
     } else {
       alert("Your bid must be higher than the current highest bid.");
@@ -34,8 +67,8 @@ const BidCardAuction = () => {
       <div className="bid-card">
         <div className="image-section">
           <img
-            src={`http://localhost:5000/${imageUrl}`} 
-            alt={title || "Artwork"} 
+            src={`http://localhost:5000/${imageUrl}`}
+            alt={title || "Artwork"}
             className="bid-image"
           />
         </div>
@@ -65,11 +98,11 @@ const BidCardAuction = () => {
             >
               {text}
             </span>{" "}
-            <span className="countdown">{time}</span>
+            <span className="countdown">{timeRemaining}</span>
           </div>
           <hr />
           <div className="art-details">
-            <h3>{title || "Untitled Artwork"}</h3>
+            <h3>{productName || "Untitled Artwork"}</h3>
             <p>
               <strong>Theme:</strong> {theme || "Not specified"}
             </p>

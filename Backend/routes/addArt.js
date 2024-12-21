@@ -56,4 +56,22 @@ router.get('/all', async (req, res) => {
   }
 });
 
+router.delete('/remove/:id', authenticateToken, async (req, res) => {
+  try {
+    const artId = req.params.id;
+
+    const deletedArt = await Buy.findByIdAndDelete(artId);
+
+    if (!deletedArt) {
+      return res.status(404).json({ message: 'Art not found' });
+    }
+
+    res.status(200).json({ message: 'Art removed successfully!' });
+  } catch (err) {
+    console.error('Error removing art:', err);
+    res.status(500).json({ error: 'Failed to remove art', details: err.message });
+  }
+});
+
+
 module.exports = router;

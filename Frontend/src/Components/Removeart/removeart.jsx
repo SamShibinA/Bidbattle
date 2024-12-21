@@ -24,19 +24,24 @@ const RemoveArt = () => {
     try {
       const response = await fetch(`http://localhost:5000/api/art/remove/${id}`, {
         method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json', 
+          Authorization: `Bearer ${localStorage.getItem('token')}`, // Include token if required
+        },
       });
-
+  
       if (response.ok) {
         const updatedItems = artItems.filter(item => item._id !== id);
         setArtItems(updatedItems);
       } else {
-        console.error('Failed to remove art');
+        const error = await response.json();
+        console.error('Failed to remove art:', error.message);
       }
     } catch (error) {
       console.error('Error removing art:', error);
     }
   };
-
+  
   return (
     <div className="remveart">
       <div className="gallery-container">
