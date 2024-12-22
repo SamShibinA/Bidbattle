@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./buy.css";
 
 function Buy() {
   const navigate = useNavigate();
-
   const [artworks, setArtworks] = useState([]);
   const [likedItems, setLikedItems] = useState({});
   const [sizeFilter, setSizeFilter] = useState("");
   const [sortOption, setSortOption] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [isProfileComplete, setIsProfileComplete] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,9 +19,7 @@ function Buy() {
         const artData = await artResponse.json();
         setArtworks(artData);
 
-        const favoriteResponse = await fetch(
-          "http://localhost:5000/api/favorite/all"
-        );
+        const favoriteResponse = await fetch("http://localhost:5000/api/favorite/all");
         const favoriteData = await favoriteResponse.json();
 
         const likedMap = {};
@@ -28,66 +27,49 @@ function Buy() {
           likedMap[fav.productId] = true;
         });
 
-        const localLikedItems = JSON.parse(localStorage.getItem('likedItems')) || {};
+        const localLikedItems = JSON.parse(localStorage.getItem("likedItems")) || {};
         setLikedItems({ ...likedMap, ...localLikedItems });
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
-    fetchData();
-  }, []);
-
-  const toggleLike = async (item) => {
-    const isLiked = likedItems[item._id];
-
-    if (isLiked) {
+    const checkProfileCompletion = async () => {
+      const token = localStorage.getItem("token");
       try {
-        await fetch(`http://localhost:5000/api/favorite/remove/${item._id}`, {
-          method: "DELETE",
+        const response = await axios.get("http://localhost:5000/api/profile", {
+          headers: { Authorization: `Bearer ${token}` },
         });
-        console.log("Removed from favorites");
+        const profile = response.data;
+        const isComplete =
+          profile.name &&
+          profile.phone &&
+          profile.city &&
+          profile.state &&
+          profile.pincode &&
+          profile.country;
+        setIsProfileComplete(isComplete);
       } catch (error) {
-        console.error("Error removing favorite:", error);
+        console.error("Error checking profile:", error);
+        setIsProfileComplete(false);
       }
-    } else {
-      try {
-        await fetch("http://localhost:5000/api/favorite/add", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            productId: item._id,
-            productName: item.productName,
-            imageUrl: item.imageUrl,
-            theme: item.theme,
-            price: item.price,
-          }),
-        });
-        console.log("Added to favorites");
-      } catch (error) {
-        console.error("Error adding favorite:", error);
-      }
-    }
-
-    const updatedLikedItems = {
-      ...likedItems,
-      [item._id]: !isLiked,
     };
 
-    setLikedItems(updatedLikedItems);
-    localStorage.setItem('likedItems', JSON.stringify(updatedLikedItems));
-  };
+    fetchData();
+    checkProfileCompletion();
+  }, []);
 
   const handleCardClick = (item) => {
-    navigate("/buycard", { state: item });
+    if (!isProfileComplete) {
+      alert("Please complete your profile to proceed.");
+      navigate("/Edit Profile");
+    } else {
+      navigate("/buycard", { state: item });
+    }
   };
 
   const filteredAndSortedItems = artworks
-    .filter((item) =>
-      sizeFilter ? item.size.includes(sizeFilter) : true
-    )
+    .filter((item) => (sizeFilter ? item.size.includes(sizeFilter) : true))
     .filter(
       (item) =>
         item.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -125,16 +107,7 @@ function Buy() {
           onChange={(e) => setSizeFilter(e.target.value)}
         >
           <option value="">Size</option>
-          <option value="8' X 10'">8' X 10'</option>
-          <option value="9' X 12'">9' X 12'</option>
-          <option value="11' X 14'">11' X 14'</option>
-          <option value="16' X 20'">16' X 20'</option>
-          <option value="18' X 24'">18' X 24'</option>
-          <option value="20' X 24'">20' X 24'</option>
-          <option value="24' X 30'">24' X 30'</option>
-          <option value="24' X 36'">24' X 36'</option>
-          <option value="30' X 40'">30' X 40'</option>
-          <option value="36' X 48'">36' X 48'</option>
+          {/* Add size options */}
         </select>
         <select
           className="dropdown"
@@ -142,9 +115,7 @@ function Buy() {
           onChange={(e) => setSortOption(e.target.value)}
         >
           <option value="">Sort</option>
-          <option value="low-to-high">Price: Low to High</option>
-          <option value="high-to-low">Price: High to Low</option>
-          <option value="newest-first">Newest First</option>
+          {/* Add sort options */}
         </select>
       </div>
 
