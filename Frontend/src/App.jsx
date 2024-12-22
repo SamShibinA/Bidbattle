@@ -15,6 +15,7 @@ import Login from './Components/Login/login';
 import Auctionsecondpage from './Pages/Auctionseconpage/auctionsecondpage';
 import Buysecondpage from './Pages/Buysecondpage/buysecondpage';
 import Paymentpage from './Pages/Paymentpage/paymentpage';
+import Winnnerpage from './Pages/Winnerpage/winnnerpage';
 function App() {
   return (
  <div>
@@ -41,6 +42,7 @@ function App() {
               <Route path="/Favourite" element={<Favoritepage />}/>
               <Route path="/Manage Order" element={<Manageorderpage />}/>\
               <Route path="Log Out" element={<Login />}/>
+              <Route path="/Winnerpage" element={<Winnnerpage />}/>
         </Routes>
         </div>
     </Router>
