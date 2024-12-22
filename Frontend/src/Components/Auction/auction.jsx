@@ -9,21 +9,28 @@ const Auction = () => {
   const [isProfileComplete, setIsProfileComplete] = useState(true);
   const navigate = useNavigate();
 
-  const calculateTimeRemaining = (endTime) => {
+  const calculateTimeRemaining = (startTime, endTime) => {
+    const startDate = new Date(startTime);
     const endDate = new Date(endTime);
     const currentDate = new Date();
-    const remainingTime = endDate - currentDate;
 
-    if (remainingTime <= 0) {
-      return "Expired";
+    if (currentDate < startDate) {
+      const remainingTime = startDate - currentDate;
+      const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+      return { status: "Starts in", time: `${days}d:${hours}h:${minutes}m:${seconds}s` };
+    } else if (currentDate < endDate) {
+      const remainingTime = endDate - currentDate;
+      const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+      return { status: "Ends in", time: `${days}d:${hours}h:${minutes}m:${seconds}s` };
+    } else {
+      return { status: "Expired", time: "Expired" };
     }
-
-    const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-
-    return `${days}d:${hours}h:${minutes}m:${seconds}s`;
   };
 
   useEffect(() => {
@@ -68,7 +75,7 @@ const Auction = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       const updatedTimeRemaining = items.reduce((acc, item) => {
-        acc[item._id] = calculateTimeRemaining(item.endDateTime);
+        acc[item._id] = calculateTimeRemaining(item.startDateTime, item.endDateTime);
         return acc;
       }, {});
       setTimeRemaining(updatedTimeRemaining);
@@ -78,6 +85,13 @@ const Auction = () => {
   }, [items]);
 
   const handleItemClick = (item) => {
+    const itemStatus = timeRemaining[item._id]?.status;
+
+    if (itemStatus === "Starts in") {
+      alert("The auction has not started yet.");
+      return;
+    }
+
     if (!isProfileComplete) {
       alert("Please complete your profile to proceed.");
       navigate("/Edit Profile");
@@ -86,11 +100,9 @@ const Auction = () => {
     }
   };
 
-  const activeItems = items.filter((item) => calculateTimeRemaining(item.endDateTime) !== "Expired");
-
   return (
     <div className="container">
-      {activeItems.map((item) => (
+      {items.map((item) => (
         <div key={item._id} className="card" onClick={() => handleItemClick(item)}>
           <img
             src={`http://localhost:5000/${item.imageUrl}`}
@@ -100,13 +112,18 @@ const Auction = () => {
           <div className="text" style={{ color: "#C53742" }}>
             {item.productName}
           </div>
-          <div className="ends-in" style={{ color: "red", fontWeight: "bold" }}>
-            Ends in:
+          <div
+            className="auction-status"
+            style={{ color: "red", fontWeight: "bold" }}
+          >
+            {timeRemaining[item._id]?.status}:
           </div>
-          <div className="time">{timeRemaining[item._id] || "Loading..."}</div>
+          <div className="time">
+            {timeRemaining[item._id]?.time || "Loading..."}
+          </div>
         </div>
       ))}
-      {activeItems.length === 0 && <p>No active auctions at the moment.</p>}
+      {items.length === 0 && <p>No active auctions at the moment.</p>}
     </div>
   );
 };
