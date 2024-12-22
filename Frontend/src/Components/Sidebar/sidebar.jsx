@@ -45,9 +45,9 @@ const Sidebar = () => {
   const handleNavigation = (path) => {
     if (!isProfileComplete) {
       alert('Please complete your profile to proceed.');
-      navigate('/Edit Profile'); // Redirect to edit profile if incomplete
+      navigate('/Edit Profile'); 
     } else {
-      navigate(path); // Navigate to the intended page if complete
+      navigate(path); 
     }
   };
 
