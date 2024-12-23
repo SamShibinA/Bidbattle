@@ -255,9 +255,16 @@
 
 .winner-item p {
     font-size: 14px;
-    color: #7f8c8d;
+    color: #2c3e50;
     margin: 0;
 }
+.no-bids-message {
+  color: red;
+  font-weight: bold;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
 
 @media (max-width: 768px) {
     .competition-container {

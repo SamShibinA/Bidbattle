@@ -21,6 +21,7 @@ router.post('/add', authenticateToken, async (req, res) => {
     const newBid = new Bid({
       userId: req.user.userId, // Retrieved from the authenticated token
       username: profile.name,   // Using the profile name as the username
+      profile:profile.profilePicture,
       productId,
       bidAmount,
     });
@@ -38,6 +39,19 @@ router.get('/:productId', async (req, res) => {
   try {
     const { productId } = req.params;
     const bids = await Bid.find({ productId }).sort({ bidAmount: -1 }); // Sort by highest bid
+    res.status(200).json({ bids });
+  } catch (error) {
+    console.error('Error fetching bids:', error);
+    res.status(500).json({ message: 'Failed to fetch bids' });
+  }
+});
+router.get('/:productId', async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const bids = await Bid.find({ productId }).sort({ bidAmount: -1 }); // Sort by highest bid
+    if (bids.length === 0) {
+      return res.status(404).json({ message: 'No bids found for this product' }); // Handle no bids case
+    }
     res.status(200).json({ bids });
   } catch (error) {
     console.error('Error fetching bids:', error);
