@@ -21,7 +21,7 @@ router.post('/add', authenticateToken, async (req, res) => {
     const newBid = new Bid({
       userId: req.user.userId, // Retrieved from the authenticated token
       username: profile.name,   // Using the profile name as the username
-      profile:profile.profilePicture,
+      profileimage:profile.profilePicture,
       productId,
       bidAmount,
     });

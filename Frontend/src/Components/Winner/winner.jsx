@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import "./winner.css";
 import p1 from "../Assests/userlogo.png";
@@ -52,7 +51,7 @@ const Winnercard = ({ productId }) => {
             <div className="winner-list">
               {topBidders.map((bid, index) => (
                 <div className="winner-item" key={bid._id}>
-                  <img src={bid.profile || p1} alt={`Bidder ${index + 1}`} className="winprofile" />
+                  <img src={bid.profileimage || p1}alt={`Bidder ${index + 1}`} className="winprofile" />
                   <div>
                     <h3>{bid.username || "Anonymous"}</h3>
                     <p>Bid Amount: ${bid.bidAmount}</p>
@@ -68,7 +67,7 @@ const Winnercard = ({ productId }) => {
           </div>
           <h2>OVER THE COMPETITION</h2>
           <p>
-          Congratulations to the winner! Thank you for Participating in the Auction.
+            Congratulations to the winner! Thank you for Participating in the Auction.
           </p>
         </div>
       </div>
@@ -77,3 +76,4 @@ const Winnercard = ({ productId }) => {
 };
 
 export default Winnercard;
+
