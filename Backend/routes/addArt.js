@@ -46,6 +46,7 @@ router.post('/add', authenticateToken, upload.single('image'), async (req, res) 
   }
 });
 
+// Endpoint to get all artworks (for Buy page)
 router.get('/all', async (req, res) => {
   try {
     const allArtworks = await Buy.find(); 
@@ -55,6 +56,19 @@ router.get('/all', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch artworks', details: err.message });
   }
 });
+
+// Endpoint to get logged-in user's artworks (for Remove Art page)
+router.get('/user-art', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.userId; // Extract user ID from the token
+    const userArtworks = await Buy.find({ userId }); // Filter by userId
+    res.status(200).json(userArtworks);
+  } catch (err) {
+    console.error('Error fetching user artworks:', err);
+    res.status(500).json({ error: 'Failed to fetch user artworks', details: err.message });
+  }
+});
+
 
 router.delete('/remove/:id', authenticateToken, async (req, res) => {
   try {
