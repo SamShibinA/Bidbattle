@@ -20,16 +20,19 @@ function Buy() {
         const artData = await artResponse.json();
         setArtworks(artData);
 
-        const favoriteResponse = await fetch("http://localhost:5000/api/favorite/all");
+        const token = localStorage.getItem("token");
+        const favoriteResponse = await fetch("http://localhost:5000/api/favorite/all", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         const favoriteData = await favoriteResponse.json();
 
+        // Map only the current user's favorites
         const likedMap = {};
         favoriteData.forEach((fav) => {
-          likedMap[fav.productId] = true;
+          likedMap[fav.productId._id] = true; // Use `productId._id` because of `populate`
         });
 
-        const localLikedItems = JSON.parse(localStorage.getItem("likedItems")) || {};
-        setLikedItems({ ...likedMap, ...localLikedItems });
+        setLikedItems(likedMap);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -60,50 +63,55 @@ function Buy() {
     checkProfileCompletion();
   }, []);
 
-  // Handle like/unlike functionality
   const toggleLike = async (item) => {
-    const isLiked = likedItems[item._id];
-
-    if (isLiked) {
-      try {
-        await fetch(`http://localhost:5000/api/favorite/remove/${item._id}`, {
-          method: "DELETE",
-        });
-        console.log("Removed from favorites");
-      } catch (error) {
-        console.error("Error removing favorite:", error);
-      }
-    } else {
-      try {
-        await fetch("http://localhost:5000/api/favorite/add", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            productId: item._id,
-            productName: item.productName,
-            imageUrl: item.imageUrl,
-            theme: item.theme,
-            price: item.price,
-          }),
-        });
-        console.log("Added to favorites");
-      } catch (error) {
-        console.error("Error adding favorite:", error);
-      }
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("You must be logged in to like an item.");
+      return;
     }
 
-    const updatedLikedItems = {
-      ...likedItems,
-      [item._id]: !isLiked,
-    };
+    const isLiked = likedItems[item._id];
+    const url = isLiked
+      ? `http://localhost:5000/api/favorite/remove/${item._id}`
+      : "http://localhost:5000/api/favorite/add";
 
-    setLikedItems(updatedLikedItems);
-    localStorage.setItem("likedItems", JSON.stringify(updatedLikedItems));
+    const method = isLiked ? "DELETE" : "POST";
+    const body = isLiked
+      ? null
+      : JSON.stringify({
+          productId: item._id,
+          productName: item.productName,
+          imageUrl: item.imageUrl,
+          theme: item.theme,
+          price: item.price,
+        });
+
+    try {
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update favorite");
+      }
+
+      const updatedLikedItems = {
+        ...likedItems,
+        [item._id]: !isLiked,
+      };
+
+      setLikedItems(updatedLikedItems);
+      console.log(isLiked ? "Removed from favorites" : "Added to favorites");
+    } catch (error) {
+      console.error("Error updating favorite:", error);
+    }
   };
 
-  // Handle card click (check profile completion before navigation)
   const handleCardClick = (item) => {
     if (!isProfileComplete) {
       alert("Please complete your profile to proceed.");
@@ -113,7 +121,6 @@ function Buy() {
     }
   };
 
-  // Filter and sort items based on selected criteria
   const filteredAndSortedItems = artworks
     .filter((item) => (sizeFilter ? item.size.includes(sizeFilter) : true))
     .filter(
@@ -206,6 +213,7 @@ function Buy() {
               >
                 {likedItems[item._id] ? "❤️" : "🤍"}
               </div>
+
               <div className="card-title">{item.productName}</div>
               <div className="card-price">${item.price}</div>
               <div className="card-theme">Theme: {item.theme}</div>

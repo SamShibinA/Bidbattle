@@ -76,7 +76,8 @@ h3 {
 }
 
 .timer {
-  display: flex;
+  display: inline-flex;
+  font-size: 1.3rem;
   align-items: center;
   gap: 8px;
   margin-top: 10px;
@@ -87,6 +88,8 @@ h3 {
 }
 
 .timer .countdown {
+  font-size: .9rem;
+ margin-bottom: .7rem;
   font-weight: bold;
   color: #555;
 }

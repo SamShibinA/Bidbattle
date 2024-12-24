@@ -8,7 +8,7 @@ const profileSchema = new mongoose.Schema({
   state: { type: String },
   pincode: { type: String },
   country: { type: String },
-  profilePicture: { type: String },
+  profilePicture: { type: String ,required:true},
 });
 
 const Profile = mongoose.model('Profile', profileSchema);
