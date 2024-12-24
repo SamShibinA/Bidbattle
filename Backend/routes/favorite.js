@@ -48,7 +48,7 @@ router.post("/add", authenticateToken, async (req, res) => {
     });
 
     await newFavorite.save();
-
+    console.log("Adding to favorites:", { productId, userId });
     res.status(201).json({ message: "Added to favorites successfully", newFavorite });
   } catch (err) {
     console.error("Error adding to favorites:", err);
@@ -66,7 +66,7 @@ router.delete("/remove/:productId", authenticateToken, async (req, res) => {
     if (!deletedFavorite) {
       return res.status(404).json({ message: "Favorite not found" });
     }
-
+    console.log("Removing from favorites:", { productId, userId });
     res.json({ message: "Removed from favorites successfully" });
   } catch (err) {
     console.error("Error removing from favorites:", err);
