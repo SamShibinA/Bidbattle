@@ -16,28 +16,28 @@ function Buy() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-          const artResponse = await fetch("http://localhost:5000/api/art/all");
-          const artData = await artResponse.json();
-          setArtworks(artData);
-  
-          const token = localStorage.getItem("token");
-          const favoriteResponse = await fetch("http://localhost:5000/api/favorite/all", {
-              headers: { Authorization: `Bearer ${token}` },
-          });
-          const favoriteData = await favoriteResponse.json();
-  
-          const likedMap = {};
-          favoriteData.forEach((fav) => {
-              likedMap[fav.productId] = true;
-          });
-  
-          const localLikedItems = JSON.parse(localStorage.getItem("likedItems")) || {};
-          setLikedItems({ ...likedMap, ...localLikedItems });
+        const artResponse = await fetch("http://localhost:5000/api/art/all");
+        const artData = await artResponse.json();
+        setArtworks(artData);
+
+        const token = localStorage.getItem("token");
+        const favoriteResponse = await fetch("http://localhost:5000/api/favorite/all", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const favoriteData = await favoriteResponse.json();
+
+        // Map only the current user's favorites
+        const likedMap = {};
+        favoriteData.forEach((fav) => {
+          likedMap[fav.productId._id] = true; // Use `productId._id` because of `populate`
+        });
+
+        setLikedItems(likedMap);
       } catch (error) {
-          console.error("Error fetching data:", error);
+        console.error("Error fetching data:", error);
       }
-  };
-  
+    };
+
     const checkProfileCompletion = async () => {
       const token = localStorage.getItem("token");
       try {
@@ -62,57 +62,56 @@ function Buy() {
     fetchData();
     checkProfileCompletion();
   }, []);
+
   const toggleLike = async (item) => {
-    const token = localStorage.getItem("token"); // Retrieve token
+    const token = localStorage.getItem("token");
     if (!token) {
-        alert("You must be logged in to like an item.");
-        return;
+      alert("You must be logged in to like an item.");
+      return;
     }
 
     const isLiked = likedItems[item._id];
-    const url = isLiked 
-        ? `http://localhost:5000/api/favorite/remove/${item._id}`
-        : "http://localhost:5000/api/favorite/add";
+    const url = isLiked
+      ? `http://localhost:5000/api/favorite/remove/${item._id}`
+      : "http://localhost:5000/api/favorite/add";
 
     const method = isLiked ? "DELETE" : "POST";
-    const body = isLiked 
-        ? null 
-        : JSON.stringify({
-              productId: item._id,
-              productName: item.productName,
-              imageUrl: item.imageUrl,
-              theme: item.theme,
-              price: item.price,
-          });
-
-    try {
-        const response = await fetch(url, {
-            method,
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`, // Include token
-            },
-            body,
+    const body = isLiked
+      ? null
+      : JSON.stringify({
+          productId: item._id,
+          productName: item.productName,
+          imageUrl: item.imageUrl,
+          theme: item.theme,
+          price: item.price,
         });
 
-        if (!response.ok) {
-            throw new Error("Failed to update favorite");
-        }
+    try {
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body,
+      });
 
-        const updatedLikedItems = {
-            ...likedItems,
-            [item._id]: !isLiked,
-        };
+      if (!response.ok) {
+        throw new Error("Failed to update favorite");
+      }
 
-        setLikedItems(updatedLikedItems);
-        localStorage.setItem("likedItems", JSON.stringify(updatedLikedItems));
-        console.log(isLiked ? "Removed from favorites" : "Added to favorites");
+      const updatedLikedItems = {
+        ...likedItems,
+        [item._id]: !isLiked,
+      };
+
+      setLikedItems(updatedLikedItems);
+      console.log(isLiked ? "Removed from favorites" : "Added to favorites");
     } catch (error) {
-        console.error("Error updating favorite:", error);
+      console.error("Error updating favorite:", error);
     }
-};
+  };
 
-  // Handle card click (check profile completion before navigation)
   const handleCardClick = (item) => {
     if (!isProfileComplete) {
       alert("Please complete your profile to proceed.");
@@ -122,7 +121,6 @@ function Buy() {
     }
   };
 
-  // Filter and sort items based on selected criteria
   const filteredAndSortedItems = artworks
     .filter((item) => (sizeFilter ? item.size.includes(sizeFilter) : true))
     .filter(
@@ -200,20 +198,20 @@ function Buy() {
                 alt={item.productName}
               />
               <div
-                  className="heart-icon"
-                  onClick={(e) => {
-                      e.stopPropagation(); // Prevent triggering parent click
-                      toggleLike(item);
-                  }}
-                  style={{
-                      color: likedItems[item._id] ? "red" : "gray",
-                      cursor: "pointer",
-                      fontSize: "22px",
-                      position: "absolute",
-                      right: "10px",
-                  }}
+                className="heart-icon"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleLike(item);
+                }}
+                style={{
+                  color: likedItems[item._id] ? "red" : "gray",
+                  cursor: "pointer",
+                  fontSize: "22px",
+                  position: "absolute",
+                  right: "10px",
+                }}
               >
-                  {likedItems[item._id] ? "❤️" : "🤍"}
+                {likedItems[item._id] ? "❤️" : "🤍"}
               </div>
 
               <div className="card-title">{item.productName}</div>
