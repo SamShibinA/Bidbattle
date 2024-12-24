@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios"; // Make sure axios is installed
 import "./bidcard.css";
 
 const BidCardAuction = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const {
     imageUrl,
     text = "Ends in",
@@ -46,14 +47,20 @@ const BidCardAuction = () => {
 
   useEffect(() => {
     const updateTimer = () => {
-      setTimeRemaining(calculateTimeRemaining(endDateTime));
+      const remainingTime = calculateTimeRemaining(endDateTime);
+
+      if (remainingTime === "Expired") {
+        navigate("/Winnerpage", { state: { productId: auctionId } });
+      } else {
+        setTimeRemaining(remainingTime);
+      }
     };
 
     updateTimer();
     const interval = setInterval(updateTimer, 1000);
 
     return () => clearInterval(interval);
-  }, [endDateTime]);
+  }, [endDateTime, navigate, auctionId]);
 
   useEffect(() => {
     // Fetch the logged-in user details (username) and the highest bid info
