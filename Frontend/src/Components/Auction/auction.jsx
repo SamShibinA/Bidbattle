@@ -142,3 +142,4 @@ const Auction = () => {
 };
 
 export default Auction;
+

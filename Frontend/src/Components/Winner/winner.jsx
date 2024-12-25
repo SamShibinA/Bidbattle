@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./winner.css";
 import p1 from "../Assests/userlogo.png";
 import axios from "axios";
@@ -9,6 +10,7 @@ const Winnercard = ({ productId }) => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [timeLeft, setTimeLeft] = useState(10 * 60); // 10 minutes in seconds
   const [timerActive, setTimerActive] = useState(false);
+  const navigate = useNavigate();  // Hook to navigate to different pages
 
   useEffect(() => {
     // Fetch top bidders when productId is available
@@ -60,6 +62,11 @@ const Winnercard = ({ productId }) => {
     return `${String(minutes).padStart(2, "0")}:${String(remainingSeconds).padStart(2, "0")}`;
   };
 
+  const handleBuyNow = (item) => {
+    // Navigate to the payment page and pass the item details
+    navigate("/payment", { state: item });
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -85,7 +92,12 @@ const Winnercard = ({ productId }) => {
                   {/* Only show "Buy Now" button for the first bidder */}
                   {index === 0 && (
                     <div className="buy-now-container">
-                      <button className="buy-now-btn">Buy Now</button>
+                      <button 
+                        className="buy-now-btn" 
+                        onClick={() => handleBuyNow(bid)}  // Pass the winning bidder data to Payment page
+                      >
+                        Buy Now
+                      </button>
                       <div className="countdown-timer">
                         {timeLeft > 0 ? (
                           <span>Time left: {formatTime(timeLeft)}</span>
