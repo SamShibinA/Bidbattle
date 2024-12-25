@@ -12,16 +12,21 @@ router.post('/add', authenticateToken, async (req, res) => {
       return res.status(400).json({ message: 'Product ID and bid amount are required' });
     }
 
-    // Fetch the user's profile to get the username
+    // Fetch the user's profile to get the username and profile image
     const profile = await Profile.findOne({ userId: req.user.userId });
     if (!profile) {
       return res.status(404).json({ message: 'Profile not found' });
     }
 
+    // Construct the profile picture URL like in profile.js
+    const profilePictureURL = profile.profilePicture
+      ? `${req.protocol}://${req.get('host')}/uploads/${profile.profilePicture}`
+      : null;
+
     const newBid = new Bid({
       userId: req.user.userId, // Retrieved from the authenticated token
       username: profile.name,   // Using the profile name as the username
-      profileimage:profile.profilePicture,
+      profileimage: profilePictureURL,  // Store the profile image URL
       productId,
       bidAmount,
     });
@@ -35,16 +40,6 @@ router.post('/add', authenticateToken, async (req, res) => {
 });
 
 // Fetch all bids for a specific product
-router.get('/:productId', async (req, res) => {
-  try {
-    const { productId } = req.params;
-    const bids = await Bid.find({ productId }).sort({ bidAmount: -1 }); // Sort by highest bid
-    res.status(200).json({ bids });
-  } catch (error) {
-    console.error('Error fetching bids:', error);
-    res.status(500).json({ message: 'Failed to fetch bids' });
-  }
-});
 router.get('/:productId', async (req, res) => {
   try {
     const { productId } = req.params;

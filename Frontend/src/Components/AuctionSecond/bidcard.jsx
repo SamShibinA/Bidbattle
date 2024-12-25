@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios"; // Make sure axios is installed
+import axios from "axios";
 import "./bidcard.css";
 
 const BidCardAuction = () => {
@@ -8,25 +8,24 @@ const BidCardAuction = () => {
   const navigate = useNavigate();
   const {
     imageUrl,
-    text = "Ends in",
     title,
     theme,
     size,
     type,
     description,
-    time,
-    startingBid = 0, // Default to 0 if not provided
     endDateTime,
     productName,
     _id: auctionId,
+    startingBid = 0,
   } = location.state || {};
 
   const [bid, setBid] = useState("");
   const [highestBid, setHighestBid] = useState(startingBid);
   const [bidder, setBidder] = useState("Not yet bidded");
   const [timeRemaining, setTimeRemaining] = useState("");
-  const [user, setUser] = useState(null); // Store the logged-in user
-  const [statusMessage, setStatusMessage] = useState(""); // Store status messages
+  const [user, setUser] = useState(null);
+  const [statusMessage, setStatusMessage] = useState("");
+  const [shippingFee, setShippingFee] = useState(0);
 
   const calculateTimeRemaining = (endTime) => {
     const endDate = new Date(endTime);
@@ -63,7 +62,6 @@ const BidCardAuction = () => {
   }, [endDateTime, navigate, auctionId]);
 
   useEffect(() => {
-    // Fetch the logged-in user details (username) and the highest bid info
     const fetchUser = async () => {
       const token = localStorage.getItem("token");
       if (token) {
@@ -92,26 +90,37 @@ const BidCardAuction = () => {
       }
     };
 
+    const fetchAuctionDetails = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/auctions/${auctionId}`);
+        if (response.data.auction) {
+          setShippingFee(response.data.auction.shippingFee || 0); // Set shipping fee
+        }
+      } catch (error) {
+        console.error("Error fetching auction details:", error);
+      }
+    };
+
     fetchUser();
     fetchBids();
+    fetchAuctionDetails();
   }, [auctionId]);
 
   const handleBidSubmit = async () => {
     const bidValue = parseFloat(bid);
     if (bidValue > highestBid) {
       try {
-        // Save the new bid
         const token = localStorage.getItem("token");
-        const response = await axios.post(
+        await axios.post(
           "http://localhost:5000/api/bid/add",
           { productId: auctionId, bidAmount: bidValue },
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
-        setStatusMessage("Your bid has been placed successfully!"); // Show success message
-        setBid(""); // Reset bid input field
-        setHighestBid(bidValue); // Update highest bid
-        setBidder(user?.name || "You"); // Set "You" for the logged-in user
+        setStatusMessage("Your bid has been placed successfully!");
+        setBid("");
+        setHighestBid(bidValue);
+        setBidder(user?.name || "You");
       } catch (error) {
         console.error("Error adding bid:", error);
         setStatusMessage("Failed to place bid. Please try again.");
@@ -121,16 +130,34 @@ const BidCardAuction = () => {
     }
   };
 
+  const handlePlaceBid = (e) => {
+    e.preventDefault();
+    if (!bid || bid <= highestBid) {
+      setStatusMessage("Your bid must be higher than the current highest bid.");
+      return;
+    }
+    handleBidSubmit();
+  };
+
   return (
     <div className="fullscreen-container">
       <div className="bid-card">
         <div className="image-section">
-          <img src={`http://localhost:5000/${imageUrl}`} alt={title || "Artwork"} className="bid-image" />
+          <img
+            src={`http://localhost:5000/${imageUrl}`}
+            alt={title || "Artwork"}
+            className="bid-image"
+          />
         </div>
         <div className="details-section">
           <h2>The Highest Bid</h2>
-          <p><strong>Bidder:</strong> {bidder === user?.name ? "You" : bidder}</p> {/* Display "You" if the current user is the highest bidder */}
-          <p><strong>Bid Amount:</strong> ${highestBid.toFixed(2)}</p>
+          <p>
+            <strong>Bidder:</strong> {bidder === user?.name ? "You" : bidder}
+          </p>
+          <p>
+            <strong>Bid Amount:</strong> ${highestBid.toFixed(2)}
+          </p>
+          
           <div className="bid-input">
             <input
               type="number"
@@ -138,13 +165,11 @@ const BidCardAuction = () => {
               value={bid}
               onChange={(e) => setBid(e.target.value)}
             />
-            <button onClick={handleBidSubmit}>BID</button>
+            <button onClick={handlePlaceBid}>BID</button>
           </div>
-          {statusMessage && <p className="status-message">{statusMessage}</p>} {/* Display status message */}
+          {statusMessage && <p className="status-message">{statusMessage}</p>}
           <div className="timer">
-            <span className="ends-in" style={{ color: text === "Ends in" ? "red" : "green" }}>
-              {text}
-            </span>
+            <span className="ends-in">Ends in</span>
             <span className="countdown">{timeRemaining}</span>
           </div>
           <hr />

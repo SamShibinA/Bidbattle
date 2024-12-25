@@ -16,6 +16,7 @@ import Auctionsecondpage from './Pages/Auctionseconpage/auctionsecondpage';
 import Buysecondpage from './Pages/Buysecondpage/buysecondpage';
 import Paymentpage from './Pages/Paymentpage/paymentpage';
 import Winnnerpage from './Pages/Winnerpage/winnnerpage';
+import AuctionPaymentPage from './Pages/Auctionpaypage/aucitonpaypage';
 function App() {
   return (
  <div>
@@ -43,6 +44,7 @@ function App() {
               <Route path="/Manage Order" element={<Manageorderpage />}/>\
               <Route path="Log Out" element={<Login />}/>
               <Route path="/Winnerpage" element={<Winnnerpage />}/>
+              <Route path="/auctionpayment" element={<AuctionPaymentPage />}></Route>
         </Routes>
         </div>
     </Router>
