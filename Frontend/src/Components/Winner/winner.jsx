@@ -8,7 +8,7 @@ const Winnercard = ({ productId }) => {
   const [topBidders, setTopBidders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [timeLeft, setTimeLeft] = useState(10 * 60); // 10 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(1 * 10); // 10 minutes in seconds
 
   useEffect(() => {
     const fetchTopBidders = async () => {
@@ -23,7 +23,7 @@ const Winnercard = ({ productId }) => {
         }
       } catch (error) {
         console.error("Error fetching top bidders:", error);
-        setErrorMessage("Failed to fetch bidders");
+        setErrorMessage("No bids found for this product");
       } finally {
         setLoading(false);
       }
@@ -65,6 +65,24 @@ const Winnercard = ({ productId }) => {
     bidAmount: topBidders[0]?.bidAmount || 0,
   };
 
+  useEffect(() => {
+    if (timeLeft <= 0) {
+      // Time's up, call the end-auction API
+      const endAuction = async () => {
+        try {
+          const response = await axios.post(`http://localhost:5000/api/bid/end-auction/${productId}`);
+          console.log(response.data.message); // Handle success message here
+          
+          // Refresh the page after removing the top bidder's bid
+          window.location.reload(); // Trigger a page reload to reflect the updated state
+        } catch (error) {
+          console.error("Error ending auction:", error);
+        }
+      };
+      endAuction();
+    }
+  }, [timeLeft, productId]);
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -82,9 +100,12 @@ const Winnercard = ({ productId }) => {
             <div className="winner-list">
               {topBidders.map((bid, index) => (
                 <div className="winner-item" key={bid._id}>
-                  {/* Log profile image to the console for debugging */}
                   <div>{console.log('Profile Image URL:', bid.profileimage)}</div>
-                  <img src={bid.profileimage || p1} alt={`Bidder ${index + 1}`} className="winprofile" />
+                  <img
+                    src={bid.profileimage || p1}
+                    alt={`Bidder ${index + 1}`}
+                    className="winprofile"
+                  />
                   <div className="winner-details">
                     <h3>{bid.username || "Anonymous"}</h3>
                     <p>Bid Amount: ${bid.bidAmount}</p>

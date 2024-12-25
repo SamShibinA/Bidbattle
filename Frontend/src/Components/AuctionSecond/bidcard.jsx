@@ -132,7 +132,7 @@ const BidCardAuction = () => {
 
   const handlePlaceBid = (e) => {
     e.preventDefault();
-    if (!bid || bid <= highestBid) {
+    if (!bid || parseFloat(bid) <= highestBid) {
       setStatusMessage("Your bid must be higher than the current highest bid.");
       return;
     }
@@ -157,7 +157,7 @@ const BidCardAuction = () => {
           <p>
             <strong>Bid Amount:</strong> ${highestBid.toFixed(2)}
           </p>
-          
+
           <div className="bid-input">
             <input
               type="number"
@@ -169,7 +169,7 @@ const BidCardAuction = () => {
           </div>
           {statusMessage && <p className="status-message">{statusMessage}</p>}
           <div className="timer">
-            <span className="ends-in">Ends in</span>
+            <span className="ends-in" style={{ color: 'red', fontWeight: 'bold' }}>Ends in</span>
             <span className="countdown">{timeRemaining}</span>
           </div>
           <hr />
