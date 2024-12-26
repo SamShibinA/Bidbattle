@@ -9,13 +9,27 @@ const Winnercard = ({ productId }) => {
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const [timeLeft, setTimeLeft] = useState(1 * 10); // 10 minutes in seconds
+  const [userId, setUserId] = useState(null); // Store logged-in user's ID
 
   useEffect(() => {
+    const fetchUser = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const response = await axios.get("http://localhost:5000/api/profile", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          setUserId(response.data.userId); // Set the logged-in user's ID
+        } catch (error) {
+          console.error("Error fetching user details:", error);
+        }
+      }
+    };
+
     const fetchTopBidders = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/api/bid/${productId}`);
         const bids = response.data.bids || [];
-        
         if (bids.length === 0) {
           setErrorMessage("No bids found for this product");
         } else {
@@ -30,6 +44,7 @@ const Winnercard = ({ productId }) => {
     };
 
     if (productId) {
+      fetchUser();
       fetchTopBidders();
     }
   }, [productId]);
@@ -58,7 +73,7 @@ const Winnercard = ({ productId }) => {
 
   const itemWithShipping = {
     productId: productId,
-    topBidder: topBidders[0], // This holds the top bidder's details
+    topBidder: topBidders[0], // Top bidder's details
     timeLeft: timeLeft,
     productImage: topBidders[0]?.productImage || "", // Include the productImage field
     productName: topBidders[0]?.productName || "Product Name", // Fallback name
@@ -67,14 +82,11 @@ const Winnercard = ({ productId }) => {
 
   useEffect(() => {
     if (timeLeft <= 0) {
-      // Time's up, call the end-auction API
       const endAuction = async () => {
         try {
           const response = await axios.post(`http://localhost:5000/api/bid/end-auction/${productId}`);
           console.log(response.data.message); // Handle success message here
-          
-          // Refresh the page after removing the top bidder's bid
-          window.location.reload(); // Trigger a page reload to reflect the updated state
+          window.location.reload(); 
         } catch (error) {
           console.error("Error ending auction:", error);
         }
@@ -99,33 +111,38 @@ const Winnercard = ({ productId }) => {
           ) : (
             <div className="winner-list">
               {topBidders.map((bid, index) => (
-                <div className="winner-item" key={bid._id}>
-                  <div>{console.log('Profile Image URL:', bid.profileimage)}</div>
-                  <img
-                    src={bid.profileimage || p1}
-                    alt={`Bidder ${index + 1}`}
-                    className="winprofile"
-                  />
-                  <div className="winner-details">
-                    <h3>{bid.username || "Anonymous"}</h3>
-                    <p>Bid Amount: ${bid.bidAmount}</p>
-                  </div>
-                  {index === 0 && (
-                    <div className="buy-now-container">
-                      <Link to="/auctionpayment" state={itemWithShipping}>
-                        <button className="buy-now-btn">Buy Now</button>
-                      </Link>
-                      <div className="countdown-timer">
-                        {timeLeft > 0 ? (
-                          <span>Time left: {formatTime(timeLeft)}</span>
-                        ) : (
-                          <span>Time's up!</span>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))}
+  <div className="winner-item" key={bid._id}>
+    <div>{console.log("Profile Image URL:", bid.profileimage)}</div>
+    <img
+      src={bid.profileimage || p1}
+      alt={`Bidder ${index + 1}`}
+      className="winprofile"
+    />
+    <div className="winner-details">
+      <h3>{bid.username || "Anonymous"}</h3>
+      <p>Bid Amount: ${bid.bidAmount}</p>
+    </div>
+    {index === 0 && (
+      <div className="buy-now-container">
+        {/* Countdown timer visible to all users */}
+        <div className="countdown-timer">
+          {timeLeft > 0 ? (
+            <span>Time left: {formatTime(timeLeft)}</span>
+          ) : (
+            <span>Time's up!</span>
+          )}
+        </div>
+        {/* "Buy Now" button visible only to the logged-in user */}
+        {bid.userId === userId && (
+          <Link to="/auctionpayment" state={itemWithShipping}>
+            <button className="buy-now-btn">Buy Now</button>
+          </Link>
+        )}
+      </div>
+    )}
+  </div>
+))}
+
             </div>
           )}
         </div>
@@ -134,7 +151,7 @@ const Winnercard = ({ productId }) => {
             <i className="fas fa-check-circle"></i>
           </div>
           <h2>OVER THE COMPETITION</h2>
-          <p>Congratulations to the winner! Thank you for Participating in the Auction.</p>
+          <p>Congratulations to the winner! Thank you for participating in the auction.</p>
         </div>
       </div>
     </div>

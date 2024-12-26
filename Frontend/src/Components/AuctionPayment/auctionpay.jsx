@@ -36,9 +36,9 @@ const AuctionPaymentPage = () => {
 
   return (
     <div className="product-card-container">
-      <div className="product-image">
+      {/* <div className="product-image">
         <img src={productImage} alt={topBidder.productName || 'Product Image'} />
-      </div>
+      </div> */}
       <div className="product-details">
         <h1>{topBidder.productName || 'Product Name'}</h1>
         <h2>${itemsTotal.toFixed(2)}</h2>
